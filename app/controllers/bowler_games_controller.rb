@@ -1,0 +1,2 @@
+class BowlerGamesController < ApplicationController
+end
