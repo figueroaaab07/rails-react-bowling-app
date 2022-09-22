@@ -99,6 +99,7 @@ GEM
     nokogiri (1.13.8-x86_64-linux)
       racc (~> 1.4)
     pg (1.4.3)
+    phonelib (0.7.3)
     puma (5.6.5)
       nio4r (~> 2.0)
     pundit (2.2.0)
@@ -162,6 +163,7 @@ DEPENDENCIES
   byebug
   listen (~> 3.3)
   pg (~> 1.1)
+  phonelib
   puma (~> 5.0)
   pundit
   rails (~> 6.1.6)

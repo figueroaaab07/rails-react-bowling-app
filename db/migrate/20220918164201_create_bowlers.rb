@@ -9,12 +9,12 @@ class CreateBowlers < ActiveRecord::Migration[6.1]
       t.string :zip_code
       t.string :country
       t.string :phone
-      t.boolean :captain
       t.boolean :left_handed
       t.integer :total_pins
       t.integer :total_games
       t.integer :handicap
       t.references :team, null: false, foreign_key: true
+      t.references :user, null: false, foreign_key: true
 
       t.timestamps
     end
