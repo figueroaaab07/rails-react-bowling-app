@@ -6,8 +6,9 @@ class CreateBowlers < ActiveRecord::Migration[6.1]
       t.string :street_address
       t.string :city
       t.string :state
-      t.string :country
       t.string :zip_code
+      t.string :country
+      t.string :phone
       t.boolean :captain
       t.boolean :left_handed
       t.integer :total_pins
