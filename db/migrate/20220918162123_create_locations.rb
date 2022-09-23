@@ -8,7 +8,8 @@ class CreateLocations < ActiveRecord::Migration[6.1]
       t.string :zip_code
       t.string :country
       t.string :phone
-
+      t.integer :lanes_number
+      
       t.timestamps
     end
   end
