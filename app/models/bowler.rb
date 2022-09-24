@@ -1,4 +1,5 @@
 class Bowler < ApplicationRecord
+  include MethodsPhone
   belongs_to :team
   belongs_to :user
   has_many :bowler_games
