@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function Location() {
+function Locations() {
   const initLocation = {id: null, name: '', street_address: '', city: '', state: '', country: '', zip_code: '', phone: '', number_lanes: null};
   const [location, setLocation] = useState(initLocation);
 
@@ -44,11 +44,11 @@ function Location() {
         <label htmlFor="phone">Phone:</label>
         <input className="phone" type="text" value={location.phone} name="phone" onChange={handleChange} /><br></br>
         <label htmlFor="number_lanes">Number of Lanes</label>
-        <input className="number_lanes" type="text" value={location.number_lanes} name="number_lanes" onChange={handleChange} /><br></br>
+        <input className="number_lanes" type="number" value={location.number_lanes} name="number_lanes" onChange={handleChange} /><br></br>
         <button className="button-primary" type="submit" onClick={handleSubmit} >Add Location</button>
       </form>
     </div>
   )
 }
 
-export default Location;
+export default Locations;

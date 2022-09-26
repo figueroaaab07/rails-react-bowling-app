@@ -64,7 +64,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/locations" element={<Locations />} />
-          {/* <Route path="/tournaments" element={<Tournaments />} />
+          <Route path="/tournaments" element={<Tournaments />} />
           <Route path="/matches" element={<Matches />} />
           <Route path="/match_teams" element={<MatchTeams />} />
           <Route path="/teams" element={<Teams />} />
@@ -72,7 +72,7 @@ function App() {
           <Route path="/games" element={<Games />} />
           <Route path="/bowler_games" element={<BowlerGames />} />
           <Route path="/matches" element={<Matches />} />
-          <Route path="/frames" element={<Frames />} /> */}
+          <Route path="/frames" element={<Frames />} />
           <Route path="*" element={<NoMatch />} />
         </>
       ) : (

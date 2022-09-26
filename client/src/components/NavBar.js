@@ -3,11 +3,6 @@ import { NavLink } from "react-router-dom";
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { userState } from "../atoms/user";
 
-let style = ({ isActive }) => ({
-  margin: "0.5rem 0.5rem",
-  fontWeight: isActive ? 'bold' : 'normal',
-});
-
 function NavBar() {
   const [user] = useRecoilState(userState);
   const resetUser = useResetRecoilState(userState);
