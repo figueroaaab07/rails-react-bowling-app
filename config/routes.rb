@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   resources :matches
   resources :tournaments
   resources :locations
-  resources :users, only: [:index]
+  resources :users, only: [:index, :destroy]
   get "/me", to: "users#show"
   post "/signup", to: "users#create"
   post "/login", to: "sessions#create"

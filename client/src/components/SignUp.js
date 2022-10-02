@@ -9,6 +9,7 @@ function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [role, setRole] = useState("player");
   function handleSubmit(e) {
     e.preventDefault();
     fetch("/signup", {
@@ -20,6 +21,7 @@ function SignUp() {
         email,
         password,
         password_confirmation: passwordConfirmation,
+        role,
       }),
     }).then((r) => {
       if (r.ok) {
@@ -57,6 +59,13 @@ function SignUp() {
           onChange={(e) => setPasswordConfirmation(e.target.value)}
           autoComplete="current-password"
         />
+        <label htmlFor="role">Role</label>
+        <select value={role} onChange={(e) => setRole(e.target.value)}>
+          <option value="player">Bowler</option>
+          <option value="captain">Captain</option>
+          <option value="admin">Administrator</option>
+        </select>
+
         <button type="submit">Sign Up</button>
       </form>
     </div>

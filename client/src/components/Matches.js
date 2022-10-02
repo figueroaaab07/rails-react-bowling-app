@@ -1,8 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import AddMatchForm from "./AddMatchForm";
+import EditMatchForm from "./EditMatchForm";
+import MatchesTable from "./MatchesTable";
+import { useRecoilValue } from 'recoil';
+import { tournamentState } from "../atoms/tournament";
+import { locationState } from "../atoms/location";
 
 function Matches() {
-  const initMatch = {id: null, name: '', number_players: null, number_games: null, tournament_id: null};
-  const [match, setMatch] = useState(initMatch);
+  const [matches, setMatches] = useState([]);
+  const tournament = useRecoilValue(tournamentState);
+  const location = useRecoilValue(locationState);
+  const initMatch = {id: null, date: '', number_players: '', number_games: '', tournament_id: tournament.id};
+  const [currentMatch, setCurrentMatch] = useState(initMatch);
+  const [editing, setEditing] = useState(false);
+
+  async function getMatches() {
+    const response = await fetch("/matches");
+    const json = await response.json();
+    console.log(json, tournament.id);
+    console.log(json.filter(d => d.tournament.id === tournament.id));
+    setMatches(json.filter((match) => match.tournament.id === tournament.id));
+  };
+  
+  useEffect(() => {
+    getMatches();
+  }, []);
 
   async function addMatch(match) {
     const requestOptions = {
@@ -12,35 +34,61 @@ function Matches() {
     };
     const response = await fetch("/matches", requestOptions);
     const json = await response.json();
-    setMatch(json);
+    setMatches(matches => matches.concat(json));
   };
 
-  function handleChange(e) {
-    console.log(e.target);
-    const {name, value} = e.target;
-    setMatch({...match, [name]: value});
-  }
+  async function deleteMatch(id) {
+    const response = await fetch(`/matches/${id}`, { method: 'DELETE' });
+    // const json = await response.json();
+    setMatches(matches => matches.filter((match) => match.id !== id));
+  };
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    handleChange(e, addMatch(match));
+  async function updateMatch(id, updatedMatch) {
+    console.log(id, updatedMatch);
+    const requestOptions = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedMatch)
+    };
+    const response = await fetch(`/matches/${id}`, requestOptions);
+    const json = await response.json();
+	  setEditing(false)
+		setMatches(matches.map(match => (match.id === id ? updatedMatch : match)))
+	}
+
+	function editRow(match) {
+		setEditing(true)
+		setCurrentMatch({ id: match.id, date: match.date, number_players: match.number_players, number_games: match.number_games, tournament_id: tournament.id})
   }
 
   return (
-    <div className="form">
-      <form>
-        <label htmlFor="date">Date:</label>
-        <input className="date" type="text" value={match.date} name="date" onChange={handleChange} /><br></br>
-        <label htmlFor="number_players">Number of Players:</label>
-        <input className="number_players" type="number" value={match.number_players} name="number_players" onChange={handleChange} /><br></br>
-        <label htmlFor="number_games">Number of Games:</label>
-        <input className="number_games" type="number" value={match.number_games} name="number_games" onChange={handleChange} /><br></br>
-        <label htmlFor="tournament_id">Tournament ID:</label>
-        <input className="tournament_id" type="number" value={match.tournament_id} name="tournament_id" onChange={handleChange} /><br></br>
-        <button className="button-primary" type="submit" onClick={handleSubmit} >Add Match</button>
-      </form>
-    </div>
-  )
+		<div className="container">
+			<div className="row">
+				<div className="add-user">
+          <h2>Bowling Center: {location.name} - Torneo: {tournament.name}</h2>
+					{editing ? (
+						<>
+							<h2>Edit Match</h2>
+							<EditMatchForm
+								editing={editing}
+								setEditing={setEditing}
+								currentMatch={currentMatch}
+								updateMatch={updateMatch}
+							/>
+						</>
+					) : (
+						<>
+							<h2>Add Match</h2>
+							<AddMatchForm addMatch={addMatch} />
+						</>
+					)}
+				</div>
+				<div className="view-user">
+					<h2>View Matches</h2>
+					<MatchesTable matches={matches} editRow={editRow} deleteMatch={deleteMatch} />
+				</div>
+			</div>
+		</div>
+  );
 }
-
 export default Matches;

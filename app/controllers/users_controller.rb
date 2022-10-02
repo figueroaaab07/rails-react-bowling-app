@@ -1,5 +1,16 @@
 class UsersController < ApplicationController
-  before_action :authorize, only: [:show]
+  before_action :authorized, only: [:show]
+
+  def index
+    users = User.all
+    render json: users
+  end
+
+  def destroy
+    user = User.find(params[:id])
+    user.destroy!
+    render json: {}, status: :no_content
+  end
 
   def create
     user = User.create!(user_params)

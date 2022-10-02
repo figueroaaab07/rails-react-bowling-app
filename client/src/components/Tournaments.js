@@ -1,8 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import AddTournamentForm from "./AddTournamentForm";
+import EditTournamentForm from "./EditTournamentForm";
+import TournamentsTable from "./TournamentsTable";
+import { useRecoilValue } from 'recoil';
+import { locationState } from "../atoms/location";
 
 function Tournaments() {
-  const initTournament = {id: null, name: '', start_date: '', end_date: '', number_dates: null, location_id: null};
-  const [tournament, setTournament] = useState(initTournament);
+  const [tournaments, setTournaments] = useState([]);
+  const location = useRecoilValue(locationState);
+  const initTournament = {id: null, name: '', start_date: '', end_date: '', number_dates: null, location_id: location.id};
+  const [currentTournament, setCurrentTournament] = useState(initTournament);
+  const [editing, setEditing] = useState(false);
+
+  async function getTournaments() {
+    const response = await fetch("/tournaments");
+    const json = await response.json();
+    console.log(json, location.id);
+    console.log(json.filter(d => d.location.id === location.id));
+    setTournaments(json.filter((tournament) => tournament.location.id === location.id));
+  };
+  
+  useEffect(() => {
+    getTournaments();
+  }, []);
 
   async function addTournament(tournament) {
     const requestOptions = {
@@ -12,37 +32,61 @@ function Tournaments() {
     };
     const response = await fetch("/tournaments", requestOptions);
     const json = await response.json();
-    setTournament(json);
+    setTournaments(tournaments => tournaments.concat(json));
   };
 
-  function handleChange(e) {
-    console.log(e.target);
-    const {name, value} = e.target;
-    setTournament({...tournament, [name]: value});
-  }
+  async function deleteTournament(id) {
+    const response = await fetch(`/tournaments/${id}`, { method: 'DELETE' });
+    // const json = await response.json();
+    setTournaments(tournaments => tournaments.filter((tournament) => tournament.id !== id));
+  };
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    handleChange(e, addTournament(tournament));
+  async function updateTournament(id, updatedTournament) {
+    console.log(id, updatedTournament);
+    const requestOptions = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedTournament)
+    };
+    const response = await fetch(`/tournaments/${id}`, requestOptions);
+    const json = await response.json();
+	  setEditing(false)
+		setTournaments(tournaments.map(tournament => (tournament.id === id ? updatedTournament : tournament)))
+	}
+
+	function editRow(tournament) {
+		setEditing(true)
+		setCurrentTournament({ id: tournament.id, name: tournament.name, start_date: tournament.start_date, end_date: tournament.end_date, number_dates: tournament.number_dates, location_id: location.id })
   }
 
   return (
-    <div className="form">
-      <form>
-        <label htmlFor="name">Name:</label>
-        <input className="name" type="text" value={tournament.name} name="name" onChange={handleChange} /><br></br>
-        <label htmlFor="start_date">Start Date:</label>
-        <input className="start_date" type="text" value={tournament.start_date} name="start_date" onChange={handleChange} /><br></br>
-        <label htmlFor="end_date">End Date:</label>
-        <input className="end_date" type="text" value={tournament.end_date} name="end_date" onChange={handleChange} /><br></br>
-        <label htmlFor="number_dates">Number of Dates:</label>
-        <input className="number_dates" type="number" value={tournament.number_dates} name="number_dates" onChange={handleChange} /><br></br>
-        <label htmlFor="location_id">Location ID:</label>
-        <input className="location_id" type="number" value={tournament.location_id} name="location_id" onChange={handleChange} /><br></br>
-        <button className="button-primary" type="submit" onClick={handleSubmit} >Add Tournament</button>
-      </form>
-    </div>
-  )
+		<div className="container">
+			<div className="row">
+				<div className="add-user">
+          <h2>Bowling Center: {location.name}</h2>
+					{editing ? (
+						<>
+							<h2>Edit Tournament</h2>
+							<EditTournamentForm
+								editing={editing}
+								setEditing={setEditing}
+								currentTournament={currentTournament}
+								updateTournament={updateTournament}
+							/>
+						</>
+					) : (
+						<>
+							<h2>Add Tournament</h2>
+							<AddTournamentForm addTournament={addTournament} />
+						</>
+					)}
+				</div>
+				<div className="view-user">
+					<h2>View Tournaments</h2>
+					<TournamentsTable tournaments={tournaments} editRow={editRow} deleteTournament={deleteTournament} />
+				</div>
+			</div>
+		</div>
+  );
 }
-
 export default Tournaments;
