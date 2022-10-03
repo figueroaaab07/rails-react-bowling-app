@@ -1,8 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import AddTeamForm from "./AddTeamForm";
+import EditTeamForm from "./EditTeamForm";
+import TeamsTable from "./TeamsTable";
 
 function Teams() {
+  const [teams, setTeams] = useState([]);
   const initTeam = {id: null, name: '', logo: ''};
-  const [team, setTeam] = useState(initTeam);
+  const [currentTeam, setCurrentTeam] = useState(initTeam);
+  const [editing, setEditing] = useState(false);
+
+  async function getTeams() {
+    const response = await fetch("/teams");
+    const json = await response.json();
+    setTeams(teams => teams.concat(json));
+  };
+  
+  useEffect(() => {
+    getTeams();
+  }, []);
 
   async function addTeam(team) {
     const requestOptions = {
@@ -12,31 +27,59 @@ function Teams() {
     };
     const response = await fetch("/teams", requestOptions);
     const json = await response.json();
-    setTeam(json);
+    setTeams(teams => teams.concat(json));
   };
 
-  function handleChange(e) {
-    console.log(e.target);
-    const {name, value} = e.target;
-    setTeam({...team, [name]: value});
-  }
+  async function deleteTeam(id) {
+    const response = await fetch(`/teams/${id}`, { method: 'DELETE' });
+    setTeams(teams => teams.filter((team) => team.id !== id));
+  };
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    handleChange(e, addTeam(team));
+  async function updateTeam(id, updatedTeam) {
+    console.log(id, updatedTeam);
+    const requestOptions = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedTeam)
+    };
+    const response = await fetch(`/teams/${id}`, requestOptions);
+    const json = await response.json();
+	  setEditing(false)
+		setTeams(teams.map(team => (team.id === id ? updatedTeam : team)))
+	}
+
+	function editRow(team) {
+		setEditing(true)
+		setCurrentTeam({ id: team.id, name: team.name, logo: team.logo })
   }
 
   return (
-    <div className="form">
-      <form>
-        <label htmlFor="name">Name:</label>
-        <input className="name" type="text" value={team.name} name="name" onChange={handleChange} /><br></br>
-        <label htmlFor="logo">Logo:</label>
-        <input className="logo" type="text" value={team.logo} name="logo" onChange={handleChange} /><br></br>
-        <button className="button-primary" type="submit" onClick={handleSubmit} >Add Team</button>
-      </form>
-    </div>
-  )
+		<div className="container">
+			<div className="row">
+				<div className="add-user">
+					{editing ? (
+						<>
+							<h2>Edit Team</h2>
+							<EditTeamForm
+								editing={editing}
+								setEditing={setEditing}
+								currentTeam={currentTeam}
+								updateTeam={updateTeam}
+							/>
+						</>
+					) : (
+						<>
+							<h2>Add Team</h2>
+							<AddTeamForm addTeam={addTeam} />
+						</>
+					)}
+				</div>
+				<div className="view-user">
+					<h2>View Locations</h2>
+					<TeamsTable teams={teams} editRow={editRow} deleteTeam={deleteTeam} />
+				</div>
+			</div>
+		</div>
+  );
 }
-
 export default Teams;
