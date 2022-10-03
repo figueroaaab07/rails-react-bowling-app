@@ -19,9 +19,9 @@ function EditTeamForm({ editing, setEditing, currentTeam, updateTeam}) {
     <div className="form">
       <form>
         <label htmlFor="name">Name:</label>
-        <input className="name" type="text" value={location.name} name="name" onChange={handleChange} /><br></br>
+        <input className="name" type="text" value={team.name} name="name" onChange={handleChange} /><br></br>
         <label htmlFor="logo">Street Address:</label>
-        <input className="logo" type="text" value={location.logo} name="logo" onChange={handleChange} /><br></br>
+        <input className="logo" type="text" value={team.logo} name="logo" onChange={handleChange} /><br></br>
         <button className="button-primary" type="submit" onClick={handleSubmit} >Edit Team</button>
       </form>
     </div>

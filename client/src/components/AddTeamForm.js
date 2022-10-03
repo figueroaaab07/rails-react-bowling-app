@@ -30,4 +30,4 @@ function AddTeamForm({ addTeam }) {
   )
 }
 
-export default AddLocationForm;
+export default AddTeamForm;
