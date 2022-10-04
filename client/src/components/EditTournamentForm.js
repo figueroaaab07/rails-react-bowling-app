@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function AddTournamentForm({ editing, setEditing, currentTournament, updateTournament }) {
+function EditTournamentForm({ editing, setEditing, currentTournament, updateTournament }) {
   const [tournament, setTournament] = useState(currentTournament);
 
   function handleChange(e) {
@@ -33,4 +33,4 @@ function AddTournamentForm({ editing, setEditing, currentTournament, updateTourn
   )
 }
 
-export default AddTournamentForm;
+export default EditTournamentForm;
