@@ -12,11 +12,11 @@ export const bowlerState = atom({
     country: '',
     zip_code: '',
     phone: '',
-    left_handed: 0,
-    total_pins: null,
-    total_games: null,
-    handicap: null,
-    team_id: null,
-    user_id: null
+    left_handed: false,
+    total_pins: '',
+    total_games: '',
+    handicap: '',
+    team_id: '',
+    user_id: ''
   },
 });

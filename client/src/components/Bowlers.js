@@ -11,6 +11,8 @@ function Bowlers() {
   const initBowler = {id: null, last_name: '', first_name: '', street_address: '', city: '', state: '', country: '', zip_code: '', phone: '', left_handed: 0, total_pins: null, total_games: null, handicap: null, user_id: null, team_id: team.id};
   const [currentBowler, setCurrentBowler] = useState(initBowler);
   const [editing, setEditing] = useState(false);
+  // const [isLeftHand, setIsLeftHand] = useState(false);
+
 
   async function getBowlers() {
     const response = await fetch("/bowlers");
@@ -38,6 +40,7 @@ function Bowlers() {
   async function deleteBowler(id) {
     const response = await fetch(`/bowlers/${id}`, { method: 'DELETE' });
     // const json = await response.json();
+	  setEditing(false)
     setBowlers(bowlers => bowlers.filter((bowler) => bowler.id !== id));
   };
 
@@ -56,7 +59,7 @@ function Bowlers() {
 
 	function editRow(bowler) {
 		setEditing(true)
-		setCurrentBowler({ id: bowler.id, last_name: bowler.last_name, first_name: bowler.first_name, street_address: bowler.street_address, city: bowler.city, state: bowler.state, country: bowler.country, zip_code: bowler.zip_code, phone: bowler.phone, left_handed: bowler.left_handed, total_pins: bowler.total_pins, total_games: bowler.total_games, handicap: bowler.handicap, user_id: bowler.user_id, team_id: bowler.team_id })
+		setCurrentBowler({ id: bowler.id, last_name: bowler.last_name, first_name: bowler.first_name, street_address: bowler.street_address, city: bowler.city, state: bowler.state, country: bowler.country, zip_code: bowler.zip_code, phone: bowler.phone, left_handed: bowler.left_handed, total_pins: bowler.total_pins, total_games: bowler.total_games, handicap: bowler.handicap, user_id: bowler.user_id, team_id: team.id })
   }
 
   return (

@@ -52,7 +52,7 @@ function BowlersTable({ bowlers, editRow, deleteBowler }) {
                 <td>{city}</td>
                 <td>{zip_code}</td>
                 <td>{phone}</td>
-                <td>{left_handed}</td>
+                <td>{left_handed ? 'Yes' : 'No'}</td>
                 <td>{total_pins}</td>
                 <td>{total_games}</td>
                 <td>{handicap}</td>

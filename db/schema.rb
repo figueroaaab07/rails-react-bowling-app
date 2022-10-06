@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(version: 2022_09_18_164810) do
     t.integer "total_games"
     t.integer "handicap"
     t.bigint "team_id", null: false
-    t.bigint "user_id", null: false
+    t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["team_id"], name: "index_bowlers_on_team_id"

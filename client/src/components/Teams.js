@@ -32,6 +32,7 @@ function Teams() {
 
   async function deleteTeam(id) {
     const response = await fetch(`/teams/${id}`, { method: 'DELETE' });
+	  setEditing(false)
     setTeams(teams => teams.filter((team) => team.id !== id));
   };
 

@@ -32,12 +32,14 @@ function Tournaments() {
     };
     const response = await fetch("/tournaments", requestOptions);
     const json = await response.json();
+	  setEditing(false)
     setTournaments(tournaments => tournaments.concat(json));
   };
 
   async function deleteTournament(id) {
     const response = await fetch(`/tournaments/${id}`, { method: 'DELETE' });
     // const json = await response.json();
+	  setEditing(false)
     setTournaments(tournaments => tournaments.filter((tournament) => tournament.id !== id));
   };
 

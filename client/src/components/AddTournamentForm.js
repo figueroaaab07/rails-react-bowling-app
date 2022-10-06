@@ -5,7 +5,7 @@ import { locationState } from "../atoms/location";
 
 function AddTournamentForm({ addTournament }) {
   const location = useRecoilValue(locationState);
-  const initTournament = {id: null, name: '', start_date: '', end_date: '', number_dates: null, location_id: location.id};
+  const initTournament = {id: null, name: '', start_date: '', end_date: '', number_dates: '', location_id: location.id};
   const [tournament, setTournament] = useState(initTournament);
 
   function handleChange(e) {

@@ -26,9 +26,9 @@ function AddMatchForm({ addMatch }) {
       <form>
         <label htmlFor="date">Date:</label>
         <input className="date" type="text" value={match.date} name="date" onChange={handleChange} /><br></br>
-        <label htmlFor="number_players">Start Date:</label>
+        <label htmlFor="number_players">Number Players:</label>
         <input className="number_players" type="text" value={match.number_players} name="number_players" onChange={handleChange} /><br></br>
-        <label htmlFor="number_games">End Date:</label>
+        <label htmlFor="number_games">Number Games:</label>
         <input className="number_games" type="text" value={match.number_games} name="number_games" onChange={handleChange} /><br></br>
         <button className="button-primary" type="submit" onClick={handleSubmit} >Add Match</button>
       </form>

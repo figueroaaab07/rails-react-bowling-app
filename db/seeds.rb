@@ -18,6 +18,7 @@ csv.each do |row|
   t.zip_code = row['zip_code']
   t.country = row['country']
   t.phone = row['phone']
+  t.number_lanes = row['number_lanes']
   t.save
 end
 puts "There are now #{Location.count} rows in the locations table"

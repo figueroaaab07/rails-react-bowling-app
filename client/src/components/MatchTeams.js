@@ -1,46 +1,121 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import AddMatchTeamForm from "./AddMatchTeamForm";
+import EditMatchTeamForm from "./EditMatchTeamForm";
+import MatchTeamsTable from "./MatchTeamsTable";
+import { useRecoilValue } from 'recoil';
+import { tournamentState } from "../atoms/tournament";
+import { locationState } from "../atoms/location";
+import { matchState } from "../atoms/match";
 
 function MatchTeams() {
-  const initMatchTeam = {id: null, lanes: '', match_id: null, home_team_id: null, guest_team_id: null};
-  const [matchTeam, setMatchTeam] = useState(initMatchTeam);
+  const [matchTeams, setMatchTeams] = useState([]);
+  const [teams, setTeams] = useState([]);
+  const tournament = useRecoilValue(tournamentState);
+  const location = useRecoilValue(locationState);
+  const match = useRecoilValue(matchState);
+  const initMatchTeam = {id: null, lanes: '', home_team_id: '', guest_team_id: '', match_id: match.id};
+  const [currentMatchTeam, setCurrentMatchTeam] = useState(initMatchTeam);
+  const [editing, setEditing] = useState(false);
+  const lanes = []
 
-  async function addMatchTeam(matchTeam) {
+  async function getTeams() {
+    const response = await fetch("/teams");
+    const json = await response.json();
+    setTeams(() => json);
+  };
+  
+  useEffect(() => {
+    getTeams();
+  }, []);
+
+  async function getMatchTeams() {
+    const response = await fetch("/match_teams");
+    const json = await response.json();
+    setMatchTeams(json.filter((match_team) => match_team.match.id === match.id));
+    console.log(json.filter((match_team) => match_team.match.id === match.id));
+  };
+  
+  useEffect(() => {
+    getMatchTeams();
+  }, []);
+
+  async function addMatchTeam(match_team) {
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(matchTeam)
+      body: JSON.stringify(match_team)
     };
     const response = await fetch("/match_teams", requestOptions);
     const json = await response.json();
-    setMatchTeam(json);
+    setMatchTeams(match_team => match_team.concat(json));
   };
 
-  function handleChange(e) {
-    console.log(e.target);
-    const {name, value} = e.target;
-    setMatchTeam({...matchTeam, [name]: value});
+  async function deleteMatchTeam(id) {
+    const response = await fetch(`/match_team/${id}`, { method: 'DELETE' });
+    // const json = await response.json();
+	  setEditing(false)
+    setMatchTeams(matchTeams => matchTeams.filter((matchTeam) => matchTeam.id !== id));
+  };
+
+  async function updateMatchTeam(id, updatedMatchTeam) {
+    console.log(id, updatedMatchTeam);
+    const requestOptions = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedMatchTeam)
+    };
+    const response = await fetch(`/match_teams/${id}`, requestOptions);
+    const json = await response.json();
+	  setEditing(false)
+		setMatchTeams(matchTeams.map(matchTeam => (matchTeam.id === id ? updatedMatchTeam : matchTeam)))
+	}
+
+	function editRow(matchTeam) {
+		setEditing(true)
+		setCurrentMatchTeam({ id: matchTeam.id, lanes: matchTeam.lanes, home_team_id: matchTeam.home_team.id, guest_team_id: matchTeam.guest_team.id, match_id: match.id })
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    handleChange(e, addMatchTeam(matchTeam));
+  function fillLanes() {
+    for(let i=0; i < location.number_lanes/2; i++){
+      lanes.push(`${2*i+1}-${2*i+2}`)
+    }    
   }
+  fillLanes();
 
   return (
-    <div className="form">
-      <form>
-        <label htmlFor="lanes">Lanes:</label>
-        <input className="lanes" type="text" value={matchTeam.lanes} name="lanes" onChange={handleChange} /><br></br>
-        <label htmlFor="match_id">Match ID:</label>
-        <input className="match_id" type="number" value={matchTeam.match_id} name="match_id" onChange={handleChange} /><br></br>
-        <label htmlFor="home_team_id">Home Team ID:</label>
-        <input className="home_team_id" type="number" value={matchTeam.home_team_id} name="home_team_id" onChange={handleChange} /><br></br>
-        <label htmlFor="guest_team_id">Guest Team ID:</label>
-        <input className="guest_team_id" type="number" value={matchTeam.guest_team_id} name="guest_team_id" onChange={handleChange} /><br></br>
-        <button className="button-primary" type="submit" onClick={handleSubmit} >Add Match Team</button>
-      </form>
-    </div>
-  )
+		<div className="container">
+			<div className="row">
+				<div className="add-user">
+          <h2>Bowling Center: {location.name} - Torneo: {tournament.name} - Match Date: {match.date} </h2>
+          {/* <>
+							<h2>Add Match Teams</h2>
+							<AddMatchTeamForm addMatchTeam={addMatchTeam} teams={teams} lanes={lanes} />
+						</> */}
+					{editing ? (
+						<>
+							<h2>Edit Match Teams</h2>
+							<EditMatchTeamForm
+								editing={editing}
+								setEditing={setEditing}
+								currentMatchTeam={currentMatchTeam}
+								updateMatchTeam={updateMatchTeam}
+                teams={teams}
+                lanes={lanes}
+							/>
+						</>
+					) : (
+						<>
+							<h2>Add Match Teams</h2>
+							<AddMatchTeamForm addMatchTeam={addMatchTeam} teams={teams} lanes={lanes}/>
+						</>
+					)}
+				</div>
+				<div className="view-user">
+					<h2>View Matches</h2>
+					<MatchTeamsTable matchTeams={matchTeams} editRow={editRow} deleteMatchTeam={deleteMatchTeam} teams={teams} />
+				</div>
+			</div>
+		</div>
+  );
 }
-
 export default MatchTeams;

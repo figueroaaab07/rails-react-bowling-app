@@ -5,13 +5,15 @@ import { teamState } from "../atoms/team";
 
 function AddBowlerForm({ addBowler }) {
   const team = useRecoilValue(teamState);
-  const initBowler = {id: null, last_name: '', first_name: '', street_address: '', city: '', state: '', country: '', zip_code: '', phone: '', left_handed: 0, total_pins: null, total_games: null, handicap: null, user_id: null, team_id: team.id};
+  const initBowler = {id: null, last_name: '', first_name: '', street_address: '', city: '', state: '', country: '', zip_code: '', phone: '', left_handed: false, total_pins: null, total_games: null, handicap: null, user_id: null, team_id: team.id};
   const [bowler, setBowler] = useState(initBowler);
 
   function handleChange(e) {
     console.log(e.target);
-    const {name, value} = e.target;
-    setBowler({...bowler, [name]: value});
+    // const {name, value} = e.target;
+    // setBowler({...bowler, [name]: value});
+    const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
+    setBowler({...bowler, [e.target.name]: value});
   }
 
   function handleSubmit(e) {
@@ -19,6 +21,7 @@ function AddBowlerForm({ addBowler }) {
     // if (!bowler.first_name) return
     handleChange(e, addBowler(bowler));
     setBowler(initBowler);
+    if (e.target.type === "checkbox") e.target.checked = false
   }
 
   return (
@@ -41,11 +44,11 @@ function AddBowlerForm({ addBowler }) {
         <label htmlFor="phone">Phone:</label>
         <input className="phone" type="text" value={bowler.phone} name="phone" onChange={handleChange} /><br></br>
         <label htmlFor="left_handed">Left Handed?</label>
-        <input className="left_handed" type="checkbox" value={bowler.left_handed} name="left_handed" onChange={handleChange} /><br></br>
-        <label htmlFor="total_pins">Total Pins</label>
+        <input className="left_handed" type="checkbox" checked={bowler.left_handed} name="left_handed" onChange={handleChange} /><br></br>
+        {/* <label htmlFor="total_pins">Total Pins</label>
         <input className="total_pins" type="number" value={bowler.total_pins} name="total_pins" onChange={handleChange} /><br></br>
         <label htmlFor="total_games">Total Games</label>
-        <input className="total_games" type="number" value={bowler.total_games} name="total_games" onChange={handleChange} /><br></br>
+        <input className="total_games" type="number" value={bowler.total_games} name="total_games" onChange={handleChange} /><br></br> */}
         <label htmlFor="handicap">Handicap</label>
         <input className="handicap" type="number" value={bowler.handicap} name="handicap" onChange={handleChange} /><br></br>
         {/* <label htmlFor="user_id">User ID</label>

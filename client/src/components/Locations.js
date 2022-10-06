@@ -33,6 +33,7 @@ function Locations() {
   async function deleteLocation(id) {
     const response = await fetch(`/locations/${id}`, { method: 'DELETE' });
     // const json = await response.json();
+	  setEditing(false)
     setLocations(locations => locations.filter((location) => location.id !== id));
   };
 

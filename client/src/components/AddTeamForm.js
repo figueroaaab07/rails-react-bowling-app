@@ -22,7 +22,7 @@ function AddTeamForm({ addTeam }) {
       <form>
         <label htmlFor="name">Name:</label>
         <input className="name" type="text" value={team.name} name="name" onChange={handleChange} /><br></br>
-        <label htmlFor="logo">Street Address:</label>
+        <label htmlFor="logo">Logo:</label>
         <input className="logo" type="text" value={team.logo} name="logo" onChange={handleChange} /><br></br>
         <button className="button-primary" type="submit" onClick={handleSubmit} >Add Team</button>
       </form>
