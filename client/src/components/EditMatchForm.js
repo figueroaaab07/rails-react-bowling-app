@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { format, parseISO } from 'date-fns'
 
 function EditMatchForm({ editing, setEditing, currentMatch, updateMatch }) {
   const [match, setMatch] = useState(currentMatch);
+  const navigate = useNavigate();
 
   function handleChange(e) {
     console.log(e.target);
@@ -19,12 +24,17 @@ function EditMatchForm({ editing, setEditing, currentMatch, updateMatch }) {
     <div className="form">
       <form>
         <label htmlFor="date">Date:</label>
-        <input className="date" type="text" value={match.date} name="date" onChange={handleChange} /><br></br>
+        <DatePicker
+          selected={new Date(match.date)}
+          dateFormat="yyyy-MM-dd" 
+          onChange={(date) => setMatch({...match, ["date"]: date})}
+        />
         <label htmlFor="number_players">Number Players:</label>
         <input className="number_players" type="text" value={match.number_players} name="number_players" onChange={handleChange} /><br></br>
         <label htmlFor="number_games">Number Games:</label>
         <input className="number_games" type="text" value={match.number_games} name="number_games" onChange={handleChange} /><br></br>
         <button className="button-primary" type="submit" onClick={handleSubmit} >Edit Match</button>
+        <button className="button-secondary" type="submit" onClick={() => navigate("/matches")} >Cancel</button>
       </form>
     </div>
   )

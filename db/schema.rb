@@ -94,7 +94,7 @@ ActiveRecord::Schema.define(version: 2022_09_18_164810) do
   end
 
   create_table "matches", force: :cascade do |t|
-    t.string "date"
+    t.date "date"
     t.integer "number_players"
     t.integer "number_games"
     t.bigint "tournament_id", null: false
@@ -112,8 +112,8 @@ ActiveRecord::Schema.define(version: 2022_09_18_164810) do
 
   create_table "tournaments", force: :cascade do |t|
     t.string "name"
-    t.string "start_date"
-    t.string "end_date"
+    t.date "start_date"
+    t.date "end_date"
     t.integer "number_dates"
     t.bigint "location_id", null: false
     t.datetime "created_at", precision: 6, null: false

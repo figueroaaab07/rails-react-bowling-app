@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 function EditMatchTeamForm({ editing, setEditing, currentMatchTeam, updateMatchTeam, teams, lanes }) {
   const [matchTeam, setMatchTeam] = useState(currentMatchTeam);
+  const navigate = useNavigate();
 
   console.log(currentMatchTeam);
 
@@ -42,6 +44,7 @@ function EditMatchTeamForm({ editing, setEditing, currentMatchTeam, updateMatchT
           ))}
         </select>
         <button className="button-primary" type="submit" onClick={handleSubmit} >Edit Match Team</button>
+        <button className="button-secondary" type="submit" onClick={() => navigate("/match_teams")} >Cancel</button>
       </form>
     </div>
   )

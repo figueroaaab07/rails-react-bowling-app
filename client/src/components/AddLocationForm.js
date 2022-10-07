@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 
 function AddLocationForm({ addLocation }) {
-  // const setLocationState = useSetRecoilState(locationState);
-  // const locationValue = useRecoilValue(locationState);
-  // const navigate = useNavigate();
   const initLocation = {id: null, name: '', street_address: '', city: '', state: '', country: '', zip_code: '', phone: '', number_lanes: ''};
   const [location, setLocation] = useState(initLocation);
 
@@ -41,6 +38,7 @@ function AddLocationForm({ addLocation }) {
         <label htmlFor="number_lanes">Number of Lanes</label>
         <input className="number_lanes" type="text" value={String(location.number_lanes)} name="number_lanes" onChange={handleChange} /><br></br>
         <button className="button-primary" type="submit" onClick={handleSubmit} >Add Location</button>
+        <button className="button-secondary" type="submit" onClick={() => setLocation(initLocation)} >Cancel</button>
       </form>
     </div>
   )

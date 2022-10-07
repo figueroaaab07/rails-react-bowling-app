@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 function EditTeamForm({ editing, setEditing, currentTeam, updateTeam}) {
   const [team, setTeam] = useState(currentTeam);
+  const navigate = useNavigate();
 
   function handleChange(e) {
     console.log(e.target);
@@ -23,6 +25,7 @@ function EditTeamForm({ editing, setEditing, currentTeam, updateTeam}) {
         <label htmlFor="logo">Logo:</label>
         <input className="logo" type="text" value={team.logo} name="logo" onChange={handleChange} /><br></br>
         <button className="button-primary" type="submit" onClick={handleSubmit} >Edit Team</button>
+        <button className="button-secondary" type="submit" onClick={() => navigate("/teams")} >Cancel</button>
       </form>
     </div>
   )

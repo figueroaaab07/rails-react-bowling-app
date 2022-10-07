@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AddMatchForm from "./AddMatchForm";
 import EditMatchForm from "./EditMatchForm";
 import MatchesTable from "./MatchesTable";
+import { format, parseISO } from 'date-fns'
 import { useRecoilValue } from 'recoil';
 import { tournamentState } from "../atoms/tournament";
 import { locationState } from "../atoms/location";
@@ -10,7 +11,7 @@ function Matches() {
   const [matches, setMatches] = useState([]);
   const tournament = useRecoilValue(tournamentState);
   const location = useRecoilValue(locationState);
-  const initMatch = {id: null, date: '', number_players: '', number_games: '', tournament_id: tournament.id};
+  const initMatch = {id: null, date: format(new Date(), 'yyyy-MM-dd'), number_players: '', number_games: '', tournament_id: tournament.id};
   const [currentMatch, setCurrentMatch] = useState(initMatch);
   const [editing, setEditing] = useState(false);
 
@@ -26,11 +27,18 @@ function Matches() {
     getMatches();
   }, []);
 
+  function formattedDate(match) {
+    console.log(match.date);
+    return {...match, ["date"]: (format(match.date, 'yyyy-MM-dd'))};
+  }
+
   async function addMatch(match) {
+    const addFormatMatch = formattedDate(match);
+    console.log(addFormatMatch);
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(match)
+      body: JSON.stringify(addFormatMatch)
     };
     const response = await fetch("/matches", requestOptions);
     const json = await response.json();
@@ -45,16 +53,17 @@ function Matches() {
   };
 
   async function updateMatch(id, updatedMatch) {
-    console.log(id, updatedMatch);
+    const updFormatMatch = formattedDate(updatedMatch);
+    console.log(id, updFormatMatch);
     const requestOptions = {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(updatedMatch)
+      body: JSON.stringify(updFormatMatch)
     };
     const response = await fetch(`/matches/${id}`, requestOptions);
     const json = await response.json();
 	  setEditing(false)
-		setMatches(matches.map(match => (match.id === id ? updatedMatch : match)))
+		setMatches(matches.map(match => (match.id === id ? updFormatMatch : match)))
 	}
 
 	function editRow(match) {

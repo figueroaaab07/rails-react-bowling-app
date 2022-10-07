@@ -4,6 +4,7 @@ import EditTournamentForm from "./EditTournamentForm";
 import TournamentsTable from "./TournamentsTable";
 import { useRecoilValue } from 'recoil';
 import { locationState } from "../atoms/location";
+import { format, parseISO } from 'date-fns'
 
 function Tournaments() {
   const [tournaments, setTournaments] = useState([]);
@@ -24,15 +25,23 @@ function Tournaments() {
     getTournaments();
   }, []);
 
+  function formattedDate(tournament) {
+    console.log(tournament.start_date);
+    return {...tournament, ["start_date"]: (format(tournament.start_date, 'yyyy-MM-dd')), ["end_date"]: (format(tournament.end_date, 'yyyy-MM-dd'))};
+  }
+
   async function addTournament(tournament) {
+    const addFormatTourn = formattedDate(tournament);
+    console.log(addFormatTourn);
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(tournament)
+      body: JSON.stringify(addFormatTourn)
     };
     const response = await fetch("/tournaments", requestOptions);
     const json = await response.json();
-	  setEditing(false)
+	  setEditing(false);
+    console.log(json);
     setTournaments(tournaments => tournaments.concat(json));
   };
 
@@ -44,16 +53,19 @@ function Tournaments() {
   };
 
   async function updateTournament(id, updatedTournament) {
-    console.log(id, updatedTournament);
+    const updFormatTourn = formattedDate(updatedTournament);
+    console.log(id, updFormatTourn);
     const requestOptions = {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(updatedTournament)
+      body: JSON.stringify(updFormatTourn)
     };
     const response = await fetch(`/tournaments/${id}`, requestOptions);
     const json = await response.json();
-	  setEditing(false)
-		setTournaments(tournaments.map(tournament => (tournament.id === id ? updatedTournament : tournament)))
+    console.log(json);
+	  setEditing(false);
+
+		setTournaments(tournaments.map(tournament => (tournament.id === id ? json : tournament)));
 	}
 
 	function editRow(tournament) {

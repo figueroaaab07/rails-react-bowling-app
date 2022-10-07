@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 function EditLocationForm({ editing, setEditing, currentLocation, updateLocation }) {
   // const setLocationState = useSetRecoilState(locationState);
   // const locationValue = useRecoilValue(locationState);
   // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [location, setLocation] = useState(currentLocation);
 
   function handleChange(e) {
@@ -39,6 +41,7 @@ function EditLocationForm({ editing, setEditing, currentLocation, updateLocation
         <label htmlFor="number_lanes">Number of Lanes</label>
         <input className="number_lanes" type="text" value={location.number_lanes} name="number_lanes" onChange={handleChange} /><br></br>
         <button className="button-primary" type="submit" onClick={handleSubmit} >Edit Location</button>
+        <button className="button-secondary" type="submit" onClick={() => navigate("/locations")} >Cancel</button>
       </form>
     </div>
   )

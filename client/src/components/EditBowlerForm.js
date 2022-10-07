@@ -1,17 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 function EditBowlerForm({ editing, setEditing, currentBowler, updateBowler }) {
   const [bowler, setBowler] = useState(currentBowler);
+  const navigate = useNavigate();
 
-  // function handleChange(e) {
-  //   console.log(e.target);
-  //   const {name, value} = e.target;
-  //   setBowler({...bowler, [name]: value});
-  // }
   function handleChange(e) {
     console.log(e.target);
-    // const {name, value} = e.target;
-    // setBowler({...bowler, [name]: value});
     const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
     setBowler({...bowler, [e.target.name]: value});
   }
@@ -44,17 +39,10 @@ function EditBowlerForm({ editing, setEditing, currentBowler, updateBowler }) {
         <input className="phone" type="text" value={bowler.phone} name="phone" onChange={handleChange} /><br></br>
         <label htmlFor="left_handed">Left Handed?</label>
         <input className="left_handed" type="checkbox" checked={bowler.left_handed} value={bowler.left_handed} name="left_handed" onChange={handleChange} /><br></br>
-        {/* <label htmlFor="total_pins">Total Pins</label>
-        <input className="total_pins" type="number" value={bowler.total_pins} name="total_pins" onChange={handleChange} /><br></br>
-        <label htmlFor="total_games">Total Games</label>
-        <input className="total_games" type="number" value={bowler.total_games} name="total_games" onChange={handleChange} /><br></br> */}
         <label htmlFor="handicap">Handicap</label>
         <input className="handicap" type="number" value={bowler.handicap} name="handicap" onChange={handleChange} /><br></br>
-        {/* <label htmlFor="user_id">User ID</label>
-        <input className="user_id" type="number" value={bowler.user_id} name="user_id" onChange={handleChange} /><br></br>
-        <label htmlFor="team_id">Team ID</label>
-        <input className="team_id" type="number" value={bowler.team_id} name="team_id" onChange={handleChange} /><br></br> */}
         <button className="button-primary" type="submit" onClick={handleSubmit} >Edit Bowler</button>
+        <button className="button-secondary" type="submit" onClick={() => navigate("/bowlers")} >Cancel</button>
       </form>
     </div>
   )

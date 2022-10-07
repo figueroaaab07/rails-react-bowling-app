@@ -10,15 +10,12 @@ function AddBowlerForm({ addBowler }) {
 
   function handleChange(e) {
     console.log(e.target);
-    // const {name, value} = e.target;
-    // setBowler({...bowler, [name]: value});
     const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
     setBowler({...bowler, [e.target.name]: value});
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    // if (!bowler.first_name) return
     handleChange(e, addBowler(bowler));
     setBowler(initBowler);
     if (e.target.type === "checkbox") e.target.checked = false
@@ -45,17 +42,12 @@ function AddBowlerForm({ addBowler }) {
         <input className="phone" type="text" value={bowler.phone} name="phone" onChange={handleChange} /><br></br>
         <label htmlFor="left_handed">Left Handed?</label>
         <input className="left_handed" type="checkbox" checked={bowler.left_handed} name="left_handed" onChange={handleChange} /><br></br>
-        {/* <label htmlFor="total_pins">Total Pins</label>
-        <input className="total_pins" type="number" value={bowler.total_pins} name="total_pins" onChange={handleChange} /><br></br>
-        <label htmlFor="total_games">Total Games</label>
-        <input className="total_games" type="number" value={bowler.total_games} name="total_games" onChange={handleChange} /><br></br> */}
         <label htmlFor="handicap">Handicap</label>
         <input className="handicap" type="number" value={bowler.handicap} name="handicap" onChange={handleChange} /><br></br>
         {/* <label htmlFor="user_id">User ID</label>
-        <input className="user_id" type="number" value={bowler.user_id} name="user_id" onChange={handleChange} /><br></br>
-        <label htmlFor="team_id">Team ID</label>
-        <input className="team_id" type="number" value={bowler.team_id} name="team_id" onChange={handleChange} /><br></br> */}
+        <input className="user_id" type="number" value={bowler.user_id} name="user_id" onChange={handleChange} /><br></br> */}
         <button className="button-primary" type="submit" onClick={handleSubmit} >Add Bowler</button>
+        <button className="button-secondary" type="submit" onClick={() => setBowler(initBowler)} >Cancel</button>
       </form>
     </div>
   )

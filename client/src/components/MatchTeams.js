@@ -6,6 +6,7 @@ import { useRecoilValue } from 'recoil';
 import { tournamentState } from "../atoms/tournament";
 import { locationState } from "../atoms/location";
 import { matchState } from "../atoms/match";
+import Matches from './Matches';
 
 function MatchTeams() {
   const [matchTeams, setMatchTeams] = useState([]);
@@ -13,6 +14,7 @@ function MatchTeams() {
   const tournament = useRecoilValue(tournamentState);
   const location = useRecoilValue(locationState);
   const match = useRecoilValue(matchState);
+  console.log(match);
   const initMatchTeam = {id: null, lanes: '', home_team_id: '', guest_team_id: '', match_id: match.id};
   const [currentMatchTeam, setCurrentMatchTeam] = useState(initMatchTeam);
   const [editing, setEditing] = useState(false);
@@ -39,6 +41,22 @@ function MatchTeams() {
     getMatchTeams();
   }, []);
 
+  async function addGames(matchTeamId) {
+    const game = {id: null, match_team_id: matchTeamId, game_number: null, home_team_score: null, guest_team_score: null}
+    for(let i=0; i < match.number_games; i++){ 
+      game.game_number = i + 1;
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(game)
+      };
+      const response = await fetch("/games", requestOptions);
+      const json = await response.json();
+      console.log(json);
+  
+    }
+  }
+
   async function addMatchTeam(match_team) {
     const requestOptions = {
       method: 'POST',
@@ -48,6 +66,7 @@ function MatchTeams() {
     const response = await fetch("/match_teams", requestOptions);
     const json = await response.json();
     setMatchTeams(match_team => match_team.concat(json));
+    addGames(json.id);
   };
 
   async function deleteMatchTeam(id) {
@@ -67,7 +86,7 @@ function MatchTeams() {
     const response = await fetch(`/match_teams/${id}`, requestOptions);
     const json = await response.json();
 	  setEditing(false)
-		setMatchTeams(matchTeams.map(matchTeam => (matchTeam.id === id ? updatedMatchTeam : matchTeam)))
+		setMatchTeams(matchTeams.map(matchTeam => (matchTeam.id === id ? json : matchTeam)))
 	}
 
 	function editRow(matchTeam) {
@@ -111,7 +130,7 @@ function MatchTeams() {
 					)}
 				</div>
 				<div className="view-user">
-					<h2>View Matches</h2>
+					<h2>View Match Teams</h2>
 					<MatchTeamsTable matchTeams={matchTeams} editRow={editRow} deleteMatchTeam={deleteMatchTeam} teams={teams} />
 				</div>
 			</div>

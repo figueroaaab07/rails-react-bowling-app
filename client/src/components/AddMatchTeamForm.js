@@ -48,6 +48,7 @@ function AddMatchTeamForm({ addMatchTeam, teams, lanes }) {
           ))}
         </select>
         <button className="button-primary" type="submit" onClick={handleSubmit} >Add Match Team</button>
+        <button className="button-secondary" type="submit" onClick={() => setMatchTeam(initMatchTeam)} >Cancel</button>
       </form>
     </div>
   )
