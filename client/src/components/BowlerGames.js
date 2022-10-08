@@ -1,43 +1,79 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSetRecoilState, useRecoilValue } from 'recoil';
+import { teamState } from "../atoms/team";
+import { gameState } from "../atoms/game";
+import { bowlerGameState } from "../atoms/bowlerGame";
+import fillBowlers from "../modules/fillBowlers";
 
 function BowlerGames() {
-  const initBowlerGame = {id: null, bowler_id: null, game_id: null, game_score: null};
-  const [bowlerGame, setBowlerGame] = useState(initBowlerGame);
+  const [bowlers, setBowlers] = useState(() => []);
+  const [bowlerGames, setBowlerGames] = useState(() => []);
+  const team = useRecoilValue(teamState);
+  const game = useRecoilValue(gameState);
+  const setBowlerGameState = useSetRecoilState(bowlerGameState);
+  const [checkedState, setCheckedState] = useState([false , false, false, false]);
 
-  async function addBowlerGame(bowlerGame) {
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(bowlerGame)
-    };
-    const response = await fetch("/games", requestOptions);
+  async function getBowlerGames() {
+    const response = await fetch("/bowler_games");
     const json = await response.json();
-    setBowlerGame(json);
+    setBowlerGames(json);
+    console.log(json);
   };
+  useEffect(() => {
+    getBowlerGames();
+  }, []);
 
-  function handleChange(e) {
-    console.log(e.target);
-    const {name, value} = e.target;
-    setBowlerGame({...bowlerGame, [name]: value});
+  function handleOnChange(position) {
+    const updatedCheckedState = checkedState.map((item, index) => index === position ? !item : item);
+    setCheckedState(updatedCheckedState);
+    const updatBowlers = bowlers.map((bowler, index) => {
+      if (index === position) {
+        bowler.checked = !bowler.checked;
+        return bowler;
+      } else {
+        return bowler;
+      }
+    });
+    setBowlers(() => updatBowlers);
+    console.log(updatedCheckedState, updatBowlers);
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    handleChange(e, addBowlerGame(bowlerGame));
-  }
+  useEffect(() => {
+    fillBowlers(team, setBowlers, game);
+  }, []);
 
   return (
-    <div className="form">
-      <form>
-        <label htmlFor="bowler_id">Bowler ID:</label>
-        <input className="bowler_id" type="number" value={bowlerGame.bowler_id} name="bowler_id" onChange={handleChange} /><br></br>
-        <label htmlFor="game_id">Game ID:</label>
-        <input className="game_id" type="number" value={bowlerGame.game_id} name="game_id" onChange={handleChange} /><br></br>
-        <label htmlFor="game_score">Game Score:</label>
-        <input className="game_score" type="number" value={bowlerGame.game_score} name="game_score" onChange={handleChange} /><br></br>
-        <button className="button-primary" type="submit" onClick={handleSubmit} >Add Bowler Game</button>
-      </form>
-    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Selected</th>
+          <th>ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        {bowlers.length > 0 ? (
+          bowlers.map(({bowler_id, bowler_first_name, bowler_last_name}, index)  => {
+            return (
+              <tr key={index}>
+                <td>
+                  <input type="checkbox" checked={checkedState[index]} name="bowler_id" value={bowler_id} onChange={() => handleOnChange(index)} />
+                </td>
+                <td>{bowler_id}</td>
+                <td>{bowler_first_name}</td>
+                <td>{bowler_last_name}</td>
+              </tr>
+            )
+          })
+          ) : (
+            <tr>
+              <td colSpan={4}>No games found</td>
+            </tr>
+          )   
+        }
+      </tbody>
+    </table>  
   )
 }
 

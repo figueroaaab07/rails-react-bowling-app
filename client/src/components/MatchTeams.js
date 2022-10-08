@@ -70,7 +70,7 @@ function MatchTeams() {
   };
 
   async function deleteMatchTeam(id) {
-    const response = await fetch(`/match_team/${id}`, { method: 'DELETE' });
+    const response = await fetch(`/match_teams/${id}`, { method: 'DELETE' });
     // const json = await response.json();
 	  setEditing(false)
     setMatchTeams(matchTeams => matchTeams.filter((matchTeam) => matchTeam.id !== id));
@@ -106,11 +106,7 @@ function MatchTeams() {
 			<div className="row">
 				<div className="add-user">
           <h2>Bowling Center: {location.name} - Torneo: {tournament.name} - Match Date: {match.date} </h2>
-          {/* <>
-							<h2>Add Match Teams</h2>
-							<AddMatchTeamForm addMatchTeam={addMatchTeam} teams={teams} lanes={lanes} />
-						</> */}
-					{editing ? (
+					  {editing ? (
 						<>
 							<h2>Edit Match Teams</h2>
 							<EditMatchTeamForm

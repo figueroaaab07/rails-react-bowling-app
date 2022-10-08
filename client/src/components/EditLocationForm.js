@@ -2,9 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
 function EditLocationForm({ editing, setEditing, currentLocation, updateLocation }) {
-  // const setLocationState = useSetRecoilState(locationState);
-  // const locationValue = useRecoilValue(locationState);
-  // const navigate = useNavigate();
   const navigate = useNavigate();
   const [location, setLocation] = useState(currentLocation);
 
