@@ -124,4 +124,5 @@ function Games() {
     </div>
   );
 }
+
 export default Games;

@@ -53,7 +53,6 @@ function MatchTeams() {
       const response = await fetch("/games", requestOptions);
       const json = await response.json();
       console.log(json);
-  
     }
   }
 
