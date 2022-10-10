@@ -17,6 +17,11 @@ function EditTeamForm({ editing, setEditing, currentTeam, updateTeam}) {
     handleChange(e, updateTeam(team.id, team));
   }
 
+  function handleCancel(e) {
+    e.preventDefault();
+    setEditing(false);
+  }
+
   return (
     <div className="form">
       <form>
@@ -25,7 +30,7 @@ function EditTeamForm({ editing, setEditing, currentTeam, updateTeam}) {
         <label htmlFor="logo">Logo:</label>
         <input className="logo" type="text" value={team.logo} name="logo" onChange={handleChange} /><br></br>
         <button className="button-primary" type="submit" onClick={handleSubmit} >Edit Team</button>
-        <button className="button-secondary" type="submit" onClick={() => navigate("/teams")} >Cancel</button>
+        <button className="button-secondary" type="submit" onClick={handleCancel} >Cancel</button>
       </form>
     </div>
   )

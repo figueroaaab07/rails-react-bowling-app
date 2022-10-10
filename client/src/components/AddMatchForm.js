@@ -24,6 +24,11 @@ function AddMatchForm({ addMatch }) {
     setMatch(initMatch);
   }
 
+  function handleCancel(e) {
+    e.preventDefault();
+    setMatch(initMatch);
+ }
+
   return (
     <div className="form">
       <form>
@@ -38,7 +43,7 @@ function AddMatchForm({ addMatch }) {
         <label htmlFor="number_games">Number Games:</label>
         <input className="number_games" type="text" value={match.number_games} name="number_games" onChange={handleChange} /><br></br>
         <button className="button-primary" type="submit" onClick={handleSubmit} >Add Match</button>
-        <button className="button-secondary" type="submit" onClick={() => setMatch(initMatch)} >Cancel</button>
+        <button className="button-secondary" type="submit" onClick={handleCancel} >Cancel</button>
       </form>
     </div>
   )

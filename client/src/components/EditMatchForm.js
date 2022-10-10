@@ -20,6 +20,11 @@ function EditMatchForm({ editing, setEditing, currentMatch, updateMatch }) {
     handleChange(e, updateMatch(match.id, match));
   }
 
+  function handleCancel(e) {
+    e.preventDefault();
+    setEditing(false);
+  }  
+
   return (
     <div className="form">
       <form>
@@ -34,7 +39,7 @@ function EditMatchForm({ editing, setEditing, currentMatch, updateMatch }) {
         <label htmlFor="number_games">Number Games:</label>
         <input className="number_games" type="text" value={match.number_games} name="number_games" onChange={handleChange} /><br></br>
         <button className="button-primary" type="submit" onClick={handleSubmit} >Edit Match</button>
-        <button className="button-secondary" type="submit" onClick={() => navigate("/matches")} >Cancel</button>
+        <button className="button-secondary" type="submit" onClick={handleCancel} >Cancel</button>
       </form>
     </div>
   )

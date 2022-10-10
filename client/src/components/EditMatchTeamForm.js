@@ -19,6 +19,11 @@ function EditMatchTeamForm({ editing, setEditing, currentMatchTeam, updateMatchT
     handleChange(e, updateMatchTeam(matchTeam.id, matchTeam));
   }
 
+  function handleCancel(e) {
+    e.preventDefault();
+    setEditing(false);
+  }  
+
   return (
     <div className="form">
       <form>
@@ -44,7 +49,7 @@ function EditMatchTeamForm({ editing, setEditing, currentMatchTeam, updateMatchT
           ))}
         </select><br></br>
         <button className="button-primary" type="submit" onClick={handleSubmit} >Edit Match Team</button>
-        <button className="button-secondary" type="submit" onClick={() => navigate("/match_teams")} >Cancel</button>
+        <button className="button-secondary" type="submit" onClick={handleCancel} >Cancel</button>
       </form>
     </div>
   )

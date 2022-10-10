@@ -18,6 +18,11 @@ function AddLocationForm({ addLocation }) {
     setLocation(initLocation);
   }
 
+  function handleCancel(e) {
+    e.preventDefault();
+    setLocation(initLocation);
+  }
+
   return (
     <div className="form">
       <form>
@@ -38,7 +43,7 @@ function AddLocationForm({ addLocation }) {
         <label htmlFor="number_lanes">Number of Lanes:</label>
         <input className="number_lanes" type="text" value={String(location.number_lanes)} name="number_lanes" onChange={handleChange} /><br></br>
         <button className="button-primary" type="submit" onClick={handleSubmit} >Add Location</button>
-        <button className="button-secondary" type="submit" onClick={() => setLocation(initLocation)} >Cancel</button>
+        <button className="button-secondary" type="submit" onClick={handleCancel} >Cancel</button>
       </form>
     </div>
   )

@@ -23,6 +23,11 @@ function AddMatchTeamForm({ addMatchTeam, teams, lanes }) {
     setMatchTeam(initMatchTeam);
   }
 
+  function handleCancel(e) {
+    e.preventDefault();
+    setMatchTeam(initMatchTeam);
+ }
+
   return (
     <div className="form">
       <form>
@@ -48,7 +53,7 @@ function AddMatchTeamForm({ addMatchTeam, teams, lanes }) {
           ))}
         </select><br></br>
         <button className="button-primary" type="submit" onClick={handleSubmit} >Add Match Team</button>
-        <button className="button-secondary" type="submit" onClick={() => setMatchTeam(initMatchTeam)} >Cancel</button>
+        <button className="button-secondary" type="submit" onClick={handleCancel} >Cancel</button>
       </form>
     </div>
   )

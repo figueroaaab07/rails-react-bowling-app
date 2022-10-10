@@ -17,6 +17,11 @@ function AddTeamForm({ addTeam }) {
     setTeam(initTeam);
   }
 
+  function handleCancel(e) {
+    e.preventDefault();
+    setTeam(initTeam);
+ }
+
   return (
     <div className="form">
       <form>
@@ -25,7 +30,7 @@ function AddTeamForm({ addTeam }) {
         <label htmlFor="logo">Logo:</label>
         <input className="logo" type="text" value={team.logo} name="logo" onChange={handleChange} /><br></br>
         <button className="button-primary" type="submit" onClick={handleSubmit} >Add Team</button>
-        <button className="button-secondary" type="submit" onClick={() => setTeam(initTeam)} >Cancel</button>
+        <button className="button-secondary" type="submit" onClick={handleCancel} >Cancel</button>
       </form>
     </div>
   )

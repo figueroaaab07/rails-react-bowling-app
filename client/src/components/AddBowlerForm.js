@@ -21,6 +21,11 @@ function AddBowlerForm({ addBowler }) {
     if (e.target.type === "checkbox") e.target.checked = false
   }
 
+  function handleCancel(e) {
+    e.preventDefault();
+    setBowler(initBowler);
+ }
+
   return (
     <div className="form">
       <form>
@@ -47,7 +52,7 @@ function AddBowlerForm({ addBowler }) {
         {/* <label htmlFor="user_id">User ID</label>
         <input className="user_id" type="number" value={bowler.user_id} name="user_id" onChange={handleChange} /><br></br> */}
         <button className="button-primary" type="submit" onClick={handleSubmit} >Add Bowler</button>
-        <button className="button-secondary" type="submit" onClick={() => setBowler(initBowler)} >Cancel</button>
+        <button className="button-secondary" type="submit" onClick={handleCancel} >Cancel</button>
       </form>
     </div>
   )

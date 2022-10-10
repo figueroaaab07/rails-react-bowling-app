@@ -16,7 +16,12 @@ function EditBowlerForm({ editing, setEditing, currentBowler, updateBowler }) {
     setEditing(false);
     handleChange(e, updateBowler(bowler.id, bowler));
     if (e.target.type === "checkbox") e.target.checked = false
-}
+  }
+
+  function handleCancel(e) {
+    e.preventDefault();
+    setEditing(false);
+  }  
 
   return (
     <div className="form">
@@ -42,7 +47,7 @@ function EditBowlerForm({ editing, setEditing, currentBowler, updateBowler }) {
         <label htmlFor="handicap">Handicap</label>
         <input className="handicap" type="number" value={bowler.handicap} name="handicap" onChange={handleChange} /><br></br>
         <button className="button-primary" type="submit" onClick={handleSubmit} >Edit Bowler</button>
-        <button className="button-secondary" type="submit" onClick={() => navigate("/bowlers")} >Cancel</button>
+        <button className="button-secondary" type="submit" onClick={handleCancel} >Cancel</button>
       </form>
     </div>
   )
