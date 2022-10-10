@@ -6,6 +6,7 @@ import { format, parseISO } from 'date-fns'
 import { useRecoilValue } from 'recoil';
 import { tournamentState } from "../atoms/tournament";
 import { locationState } from "../atoms/location";
+import '../newIndex.css'
 
 function Matches() {
   const [matches, setMatches] = useState([]);
@@ -72,13 +73,13 @@ function Matches() {
   }
 
   return (
-		<div className="container">
+		<div className="some-page-wrapper">
+      <h3>Bowling Center: {location.name} - Torneo: {tournament.name}</h3>
 			<div className="row">
-				<div className="add-user">
-          <h2>Bowling Center: {location.name} - Torneo: {tournament.name}</h2>
+				<div className="column">
 					{editing ? (
 						<>
-							<h2>Edit Match</h2>
+							<h3>Edit Match</h3>
 							<EditMatchForm
 								editing={editing}
 								setEditing={setEditing}
@@ -88,14 +89,16 @@ function Matches() {
 						</>
 					) : (
 						<>
-							<h2>Add Match</h2>
+							<h3>Add Match</h3>
 							<AddMatchForm addMatch={addMatch} />
 						</>
 					)}
 				</div>
-				<div className="view-user">
-					<h2>View Matches</h2>
-					<MatchesTable matches={matches} editRow={editRow} deleteMatch={deleteMatch} />
+				<div className="double-column">
+          <div className="container">
+					  <h3>View Matches</h3>
+					  <MatchesTable matches={matches} editRow={editRow} deleteMatch={deleteMatch} />
+          </div>
 				</div>
 			</div>
 		</div>

@@ -104,22 +104,26 @@ function Games() {
   }
 
   return (
-    <div className="container">
-      <div className="form">
-        <form>
-          <label htmlFor="team">Team:</label>
-          <select onChange={handleChange}>
-            <option key={"choose"} value="choose"> -- Select Team -- </option>
-            {teams.map((team, index) => (
-              <option key={index} value={index}>
-                {team.name}
-              </option>
-            ))}
-          </select>
-        </form>
-      </div>
-      <div className="table">
-        <GamesTable gamesFlat={gamesFlat} />
+		<div className="some-page-wrapper">
+			<div className="row">
+				<div className="column">
+          <form>
+            <label htmlFor="team">Team:</label>
+            <select onChange={handleChange}>
+              <option key={"choose"} value="choose"> -- Select Team -- </option>
+              {teams.map((team, index) => (
+                <option key={index} value={index}>
+                  {team.name}
+                </option>
+              ))}
+            </select>
+          </form>
+        </div>
+        <div className="double-column">
+          <div className="container">
+            <GamesTable gamesFlat={gamesFlat} />
+          </div>
+        </div>
       </div>
     </div>
   );

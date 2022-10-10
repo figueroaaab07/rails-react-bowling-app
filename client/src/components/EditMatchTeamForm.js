@@ -42,7 +42,7 @@ function EditMatchTeamForm({ editing, setEditing, currentMatchTeam, updateMatchT
           {teams.map((team) => (
             <option key={team.id} value={team.id}>{team.name}</option>
           ))}
-        </select>
+        </select><br></br>
         <button className="button-primary" type="submit" onClick={handleSubmit} >Edit Match Team</button>
         <button className="button-secondary" type="submit" onClick={() => navigate("/match_teams")} >Cancel</button>
       </form>

@@ -5,6 +5,7 @@ import TournamentsTable from "./TournamentsTable";
 import { useRecoilValue } from 'recoil';
 import { locationState } from "../atoms/location";
 import { format, parseISO } from 'date-fns'
+import '../newIndex.css'
 
 function Tournaments() {
   const [tournaments, setTournaments] = useState([]);
@@ -74,13 +75,13 @@ function Tournaments() {
   }
 
   return (
-		<div className="container">
+		<div className="some-page-wrapper">
+      <h3>Bowling Center: {location.name}</h3>
 			<div className="row">
-				<div className="add-user">
-          <h2>Bowling Center: {location.name}</h2>
+				<div className="column">
 					{editing ? (
 						<>
-							<h2>Edit Tournament</h2>
+							<h3>Edit Tournament</h3>
 							<EditTournamentForm
 								editing={editing}
 								setEditing={setEditing}
@@ -90,14 +91,16 @@ function Tournaments() {
 						</>
 					) : (
 						<>
-							<h2>Add Tournament</h2>
-							<AddTournamentForm addTournament={addTournament} />
+							<h3>Add Tournament</h3>
+							<AddTournamentForm addTournament={addTournament} setEditing={setEditing} />
 						</>
 					)}
 				</div>
-				<div className="view-user">
-					<h2>View Tournaments</h2>
-					<TournamentsTable tournaments={tournaments} editRow={editRow} deleteTournament={deleteTournament} />
+				<div className="double-column">
+          <div className="container">
+					  <h3>View Tournaments</h3>
+					  <TournamentsTable tournaments={tournaments} editRow={editRow} deleteTournament={deleteTournament} />
+				  </div>
 				</div>
 			</div>
 		</div>

@@ -20,6 +20,11 @@ function EditTournamentForm({ editing, setEditing, currentTournament, updateTour
     handleChange(e, updateTournament(tournament.id, tournament));
   }
 
+  function handleCancel(e) {
+    e.preventDefault();
+    setEditing(false);
+  }  
+
   return (
     <div className="form">
       <form>
@@ -47,7 +52,7 @@ function EditTournamentForm({ editing, setEditing, currentTournament, updateTour
         <label htmlFor="number_dates">Number Dates:</label>
         <input className="number_dates" type="text" value={tournament.number_dates} name="number_dates" onChange={handleChange} /><br></br>
         <button className="button-primary" type="submit" onClick={handleSubmit} >Edit Tournament</button>
-        <button className="button-secondary" type="submit" onClick={() => navigate("/tournaments")} >Cancel</button>
+        <button className="button-secondary" type="submit" onClick={handleCancel} >Cancel</button>
       </form>
     </div>
   )

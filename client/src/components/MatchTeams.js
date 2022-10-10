@@ -7,6 +7,7 @@ import { tournamentState } from "../atoms/tournament";
 import { locationState } from "../atoms/location";
 import { matchState } from "../atoms/match";
 import Matches from './Matches';
+import '../newIndex.css'
 
 function MatchTeams() {
   const [matchTeams, setMatchTeams] = useState([]);
@@ -101,13 +102,13 @@ function MatchTeams() {
   fillLanes();
 
   return (
-		<div className="container">
+		<div className="some-page-wrapper">
+      <h3>Bowling Center: {location.name} - Torneo: {tournament.name} - Match Date: {match.date} </h3>
 			<div className="row">
-				<div className="add-user">
-          <h2>Bowling Center: {location.name} - Torneo: {tournament.name} - Match Date: {match.date} </h2>
+				<div className="column">
 					  {editing ? (
 						<>
-							<h2>Edit Match Teams</h2>
+							<h3>Edit Match Teams</h3>
 							<EditMatchTeamForm
 								editing={editing}
 								setEditing={setEditing}
@@ -119,14 +120,16 @@ function MatchTeams() {
 						</>
 					) : (
 						<>
-							<h2>Add Match Teams</h2>
+							<h3>Add Match Teams</h3>
 							<AddMatchTeamForm addMatchTeam={addMatchTeam} teams={teams} lanes={lanes}/>
 						</>
 					)}
 				</div>
 				<div className="view-user">
-					<h2>View Match Teams</h2>
-					<MatchTeamsTable matchTeams={matchTeams} editRow={editRow} deleteMatchTeam={deleteMatchTeam} teams={teams} />
+          <div className="container">
+					  <h3>View Match Teams</h3>
+					  <MatchTeamsTable matchTeams={matchTeams} editRow={editRow} deleteMatchTeam={deleteMatchTeam} teams={teams} />
+          </div>
 				</div>
 			</div>
 		</div>

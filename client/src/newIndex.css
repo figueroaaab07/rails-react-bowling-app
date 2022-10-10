@@ -1,0 +1,43 @@
+.some-page-wrapper {
+  background-color: rgb(255, 255, 255);
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+}
+
+.double-column {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+}
+
+.container {
+  overflow-x: auto
+}
+
+label {
+  color: #B4886B;
+  font-weight: bold;
+  display: block;
+}
+label:after { content: " " }
+
+@media screen and (min-width: 800px) {
+  .column {
+    flex: 1
+  }
+
+  .double-column {
+    flex: 2
+  }
+}

@@ -6,7 +6,7 @@ import { format, parseISO } from 'date-fns'
 import { useRecoilValue } from 'recoil';
 import { locationState } from "../atoms/location";
 
-function AddTournamentForm({ addTournament }) {
+function AddTournamentForm({ addTournament, setEditing }) {
   const location = useRecoilValue(locationState);
   const initTournament = {id: null, name: '', start_date: '', end_date: '', number_dates: '', location_id: location.id};
   const [tournament, setTournament] = useState(initTournament);
@@ -23,6 +23,11 @@ function AddTournamentForm({ addTournament }) {
     handleChange(e, addTournament(tournament));
     setTournament(initTournament);
   }
+
+  function handleCancel(e) {
+    e.preventDefault();
+    setTournament(initTournament);
+  }  
 
   return (
     <div className="form">
@@ -51,7 +56,7 @@ function AddTournamentForm({ addTournament }) {
         <label htmlFor="number_dates">Number Dates:</label>
         <input className="number_dates" type="text" value={tournament.number_dates} name="number_dates" onChange={handleChange} /><br></br>
         <button className="button-primary" type="submit" onClick={handleSubmit} >Add Tournament</button>
-        <button className="button-secondary" type="submit" onClick={() => setTournament(initTournament)} >Cancel</button>
+        <button className="button-secondary" type="submit" onClick={handleCancel} >Cancel</button>
       </form>
     </div>
   )

@@ -39,7 +39,7 @@ function BowlersTable({ bowlers, editRow, deleteBowler }) {
             return (
               <tr key={id}>
                 <td>
-                  <button onClick={() => selectBowler(bowler)}>Select</button>
+                  {/* <button onClick={() => selectBowler(bowler)}>Select</button> */}
                   <button onClick={() => editRow(bowler)}>Update</button>
                   <button onClick={() => deleteBowler(id)}>Delete</button>
                 </td>

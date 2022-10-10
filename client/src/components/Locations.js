@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AddLocationForm from "./AddLocationForm";
 import EditLocationForm from "./EditLocationForm";
 import LocationsTable from "./LocationsTable";
+import '../newIndex.css'
 
 function Locations() {
   const [locations, setLocations] = useState([]);
@@ -56,12 +57,12 @@ function Locations() {
   }
 
   return (
-		<div className="container">
+		<div className="some-page-wrapper">
 			<div className="row">
-				<div className="add-user">
+				<div className="column">
 					{editing ? (
 						<>
-							<h2>Edit Location</h2>
+							<h3>Edit Location</h3>
 							<EditLocationForm
 								editing={editing}
 								setEditing={setEditing}
@@ -71,14 +72,16 @@ function Locations() {
 						</>
 					) : (
 						<>
-							<h2>Add Location</h2>
+							<h3>Add Location</h3>
 							<AddLocationForm addLocation={addLocation} />
 						</>
 					)}
 				</div>
-				<div className="view-user">
-					<h2>View Locations</h2>
-					<LocationsTable locations={locations} editRow={editRow} deleteLocation={deleteLocation} />
+				<div className="double-column">
+          <div className="container">
+					  <h3>View Locations</h3>
+					  <LocationsTable locations={locations} editRow={editRow} deleteLocation={deleteLocation} />
+          </div>
 				</div>
 			</div>
 		</div>

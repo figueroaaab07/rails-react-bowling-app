@@ -55,12 +55,12 @@ function Teams() {
   }
 
   return (
-		<div className="container">
+		<div className="some-page-wrapper">
 			<div className="row">
-				<div className="add-user">
+				<div className="column">
 					{editing ? (
 						<>
-							<h2>Edit Team</h2>
+							<h3>Edit Team</h3>
 							<EditTeamForm
 								editing={editing}
 								setEditing={setEditing}
@@ -70,14 +70,16 @@ function Teams() {
 						</>
 					) : (
 						<>
-							<h2>Add Team</h2>
+							<h3>Add Team</h3>
 							<AddTeamForm addTeam={addTeam} />
 						</>
 					)}
 				</div>
 				<div className="view-user">
-					<h2>View Locations</h2>
-					<TeamsTable teams={teams} editRow={editRow} deleteTeam={deleteTeam} />
+          <div className="container">
+					  <h3>View Teams</h3>
+					  <TeamsTable teams={teams} editRow={editRow} deleteTeam={deleteTeam} />
+          </div>
 				</div>
 			</div>
 		</div>

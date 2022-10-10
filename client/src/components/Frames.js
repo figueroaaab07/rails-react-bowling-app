@@ -24,6 +24,7 @@ function Frames() {
     const response = await fetch("/frames");
     const json = await response.json();
     setFrames(json);
+    console.log(json);
   };
   useEffect(() => {
     getFrames();
@@ -38,7 +39,8 @@ function Frames() {
     getTeams();
   }, []);
 
-    
+  console.log([...Array(10)]);
+      
   return (
     <div>
       {/* <button onClick={() => setExplode(e => !e)}>toggle explode</button>

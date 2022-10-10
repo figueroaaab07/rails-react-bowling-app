@@ -63,13 +63,13 @@ function Bowlers() {
   }
 
   return (
-		<div className="container">
+		<div className="some-page-wrapper">
+      <h3>Team: {team.name}</h3>
 			<div className="row">
-				<div className="add-user">
-          <h2>Team: {team.name}</h2>
+				<div className="column">
 					{editing ? (
 						<>
-							<h2>Edit Bowler</h2>
+							<h3>Edit Bowler</h3>
 							<EditBowlerForm
 								editing={editing}
 								setEditing={setEditing}
@@ -79,14 +79,16 @@ function Bowlers() {
 						</>
 					) : (
 						<>
-							<h2>Add Bowler</h2>
+							<h3>Add Bowler</h3>
 							<AddBowlerForm addBowler={addBowler} />
 						</>
 					)}
 				</div>
-				<div className="view-user">
-					<h2>View Bowlers</h2>
-					<BowlersTable bowlers={bowlers} editRow={editRow} deleteBowler={deleteBowler} />
+				<div className="double-column">
+          <div className="container">
+					  <h3>View Bowlers</h3>
+					  <BowlersTable bowlers={bowlers} editRow={editRow} deleteBowler={deleteBowler} />
+          </div>
 				</div>
 			</div>
 		</div>

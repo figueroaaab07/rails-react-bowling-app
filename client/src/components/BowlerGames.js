@@ -65,42 +65,48 @@ function BowlerGames() {
   }, []);
 
   return (
-    <>
-      <div>
-        <button className="button-submit" type="submit" onClick={handleSubmit} >Bowlers Selected</button>
-      </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Selected</th>
-            <th>ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-          </tr>
-        </thead>
-        <tbody>
-          {bowlers.length > 0 ? (
-            bowlers.map(({bowler_id, bowler_first_name, bowler_last_name, selected}, index)  => {
-              return (
-                <tr key={index}>
-                  <td>
-                    <input type="checkbox" checked={selected} name="bowler_id" value={bowler_id} onChange={() => handleOnChange(index)} />
-                  </td>
-                  <td>{bowler_id}</td>
-                  <td>{bowler_first_name}</td>
-                  <td>{bowler_last_name}</td>
+		<div className="some-page-wrapper">
+			<div className="row">
+				<div className="column">
+          <button className="button-submit" type="submit" onClick={handleSubmit} >Bowlers Selected</button>
+        </div>
+				<div className="double-column">
+          <div className="container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Selected</th>
+                  <th>ID</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
                 </tr>
-              )
-            })
-            ) : (
-              <tr>
-                <td colSpan={4}>No games found</td>
-              </tr>
-            )   
-          }
-        </tbody>
-      </table>  
-    </>
+              </thead>
+              <tbody>
+                {bowlers.length > 0 ? (
+                  bowlers.map(({bowler_id, bowler_first_name, bowler_last_name, selected}, index)  => {
+                    return (
+                      <tr key={index}>
+                        <td>
+                          <input type="checkbox" checked={selected} name="bowler_id" value={bowler_id} onChange={() => handleOnChange(index)} />
+                        </td>
+                        <td>{bowler_id}</td>
+                        <td>{bowler_first_name}</td>
+                        <td>{bowler_last_name}</td>
+                      </tr>
+                    )
+                  })
+                  ) : (
+                    <tr>
+                      <td colSpan={4}>No games found</td>
+                    </tr>
+                  )   
+                }
+              </tbody>
+            </table>  
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
 

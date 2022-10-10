@@ -46,7 +46,7 @@ function AddMatchTeamForm({ addMatchTeam, teams, lanes }) {
           {teams.map((team) => (
             <option key={team.id} value={team.id}>{team.name}</option>
           ))}
-        </select>
+        </select><br></br>
         <button className="button-primary" type="submit" onClick={handleSubmit} >Add Match Team</button>
         <button className="button-secondary" type="submit" onClick={() => setMatchTeam(initMatchTeam)} >Cancel</button>
       </form>
