@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState, useRecoilValue } from 'recoil';
-import { gameState } from "../atoms/game";
-import Frame from './Frame';
-import './Frames.css'
+import { gameState } from "../../atoms/game";
+import Frame from '../Frame';
+import '../Frames.css'
 
 function FramesTable({ game, result, name }) {
   // let score = [...game];

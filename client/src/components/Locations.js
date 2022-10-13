@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import AddLocationForm from "./AddLocationForm";
-import EditLocationForm from "./EditLocationForm";
-import LocationsTable from "./LocationsTable";
+import AddLocationForm from "./forms/AddLocationForm";
+import EditLocationForm from "./forms/EditLocationForm";
+import LocationsTable from "./tables/LocationsTable";
 import '../newIndex.css'
 
 function Locations() {

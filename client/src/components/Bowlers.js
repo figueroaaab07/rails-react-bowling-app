@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import AddBowlerForm from "./AddBowlerForm";
-import EditBowlerForm from "./EditBowlerForm";
-import BowlersTable from "./BowlersTable";
+import AddBowlerForm from "./forms/AddBowlerForm";
+import EditBowlerForm from "./forms/EditBowlerForm";
+import BowlersTable from "./tables/BowlersTable";
 import { useRecoilValue } from 'recoil';
 import { teamState } from "../atoms/team";
 

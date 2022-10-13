@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import AddTournamentForm from "./AddTournamentForm";
-import EditTournamentForm from "./EditTournamentForm";
-import TournamentsTable from "./TournamentsTable";
+import AddTournamentForm from "./forms/AddTournamentForm";
+import EditTournamentForm from "./forms/EditTournamentForm";
+import TournamentsTable from "./tables/TournamentsTable";
 import { useRecoilValue } from 'recoil';
 import { locationState } from "../atoms/location";
 import { format, parseISO } from 'date-fns'

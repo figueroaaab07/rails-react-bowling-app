@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState, useRecoilValue } from 'recoil';
-import { gameState } from "../atoms/game";
+import { gameState } from "../../atoms/game";
 
 function GamesTable({ gamesFlat }) {
   const setGameState = useSetRecoilState(gameState);

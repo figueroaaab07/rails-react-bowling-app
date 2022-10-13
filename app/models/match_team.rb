@@ -3,7 +3,7 @@ class MatchTeam < ApplicationRecord
   # belongs_to :team
   belongs_to :home_team, class_name: 'Team'
   belongs_to :guest_team, class_name: 'Team'
-  has_many :games
+  has_many :games, dependent: :destroy
 
   def self.teams
     Team.where("home_team_id = ? OR guest_team_id = ?", self.id, self.id).uniq

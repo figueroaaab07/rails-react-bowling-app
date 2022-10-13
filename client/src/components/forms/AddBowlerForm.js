@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from 'recoil';
-import { teamState } from "../atoms/team";
+import { teamState } from "../../atoms/team";
 
 function AddBowlerForm({ addBowler }) {
   const team = useRecoilValue(teamState);

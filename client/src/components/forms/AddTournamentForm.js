@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format, parseISO } from 'date-fns'
 import { useRecoilValue } from 'recoil';
-import { locationState } from "../atoms/location";
+import { locationState } from "../../atoms/location";
 
 function AddTournamentForm({ addTournament, setEditing }) {
   const location = useRecoilValue(locationState);

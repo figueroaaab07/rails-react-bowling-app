@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import AddMatchForm from "./AddMatchForm";
-import EditMatchForm from "./EditMatchForm";
-import MatchesTable from "./MatchesTable";
+import AddMatchForm from "./forms/AddMatchForm";
+import EditMatchForm from "./forms/EditMatchForm";
+import MatchesTable from "./tables/MatchesTable";
 import { format, parseISO } from 'date-fns'
 import { useRecoilValue } from 'recoil';
 import { tournamentState } from "../atoms/tournament";

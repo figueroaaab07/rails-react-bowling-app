@@ -1,11 +1,22 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState, useRecoilValue } from 'recoil';
-import { matchTeamState } from "../atoms/matchTeam";
+import { matchTeamState } from "../../atoms/matchTeam";
 
 function MatchesTable({ matchTeams, editRow, deleteMatchTeam, teams }) {
+  const [games, setGames] = useState([]);
   const setMatchTeamState = useSetRecoilState(matchTeamState);
   const navigate = useNavigate();
+
+  async function getGames() {
+    const response = await fetch("/games");
+    const json = await response.json();
+    setGames(json);
+    console.log(json);
+  };
+  useEffect(() => {
+    getGames();
+  }, []);
 
   function selectMatchTeam(matchTeam) {
     setMatchTeamState(matchTeam);
@@ -27,13 +38,15 @@ function MatchesTable({ matchTeams, editRow, deleteMatchTeam, teams }) {
         {matchTeams.length > 0 ? (
           matchTeams.map(matchTeam => {
             const {id, lanes, home_team, guest_team} = matchTeam;
+            const gamesFiltered = games.filter(game => game.match_team.id === id);
+            let isDelUpdable = gamesFiltered.every(game => game.bowlers.length > 0);
             console.log(matchTeam)
             return (
               <tr key={id}>
                 <td>
-                  <button onClick={() => selectMatchTeam(matchTeam)}>Select</button>
-                  <button onClick={() => editRow(matchTeam)}>Update</button>
-                  <button onClick={() => deleteMatchTeam(id)}>Delete</button>
+                  {/* <button onClick={() => selectMatchTeam(matchTeam)}>Select</button> */}
+                  <button disabled={!isDelUpdable} onClick={() => editRow(matchTeam)}>Update</button>
+                  <button disabled={!isDelUpdable} onClick={() => deleteMatchTeam(id)}>Delete</button>
                 </td>
                 <td>{id}</td>
                 <td>{lanes}</td>

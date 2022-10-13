@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState, useRecoilValue } from 'recoil';
-import { tournamentState } from "../atoms/tournament";
+import { tournamentState } from "../../atoms/tournament";
 
 function TournamentsTable({ tournaments, editRow, deleteTournament }) {
   const setTournamentState = useSetRecoilState(tournamentState);
@@ -27,13 +27,14 @@ function TournamentsTable({ tournaments, editRow, deleteTournament }) {
       <tbody>
         {tournaments.length > 0 ? (
           tournaments.map(tournament => {
-            const {id, name, start_date, end_date, number_dates} = tournament;
+            const {id, name, start_date, end_date, number_dates, matches} = tournament;
+            const isDelUpdable = matches.length === 0;
             return (
               <tr key={id}>
                 <td>
                   <button onClick={() => selectTournament(tournament)}>Select</button>
-                  <button onClick={() => editRow(tournament)}>Update</button>
-                  <button onClick={() => deleteTournament(id)}>Delete</button>
+                  <button disabled={!isDelUpdable} onClick={() => editRow(tournament)}>Update</button>
+                  <button disabled={!isDelUpdable} onClick={() => deleteTournament(id)}>Delete</button>
                 </td>
                 <td>{id}</td>
                 <td>{name}</td>

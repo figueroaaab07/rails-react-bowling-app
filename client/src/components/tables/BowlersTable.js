@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState, useRecoilValue } from 'recoil';
-import { bowlerState } from "../atoms/bowler";
+import { bowlerState } from "../../atoms/bowler";
 
 function BowlersTable({ bowlers, editRow, deleteBowler }) {
   const setBowlerState = useSetRecoilState(bowlerState);
@@ -35,13 +35,14 @@ function BowlersTable({ bowlers, editRow, deleteBowler }) {
       <tbody>
         {bowlers.length > 0 ? (
           bowlers.map(bowler => {
-            const {id, last_name, first_name, street_address, city, state, country, zip_code, phone, left_handed, total_pins, total_games, handicap} = bowler;
+            const {id, last_name, first_name, street_address, city, state, country, zip_code, phone, left_handed, total_pins, total_games, handicap, games} = bowler;
+            const isDelUpdable = games.length === 0;
             return (
               <tr key={id}>
                 <td>
                   {/* <button onClick={() => selectBowler(bowler)}>Select</button> */}
                   <button onClick={() => editRow(bowler)}>Update</button>
-                  <button onClick={() => deleteBowler(id)}>Delete</button>
+                  <button disabled={!isDelUpdable} onClick={() => deleteBowler(id)}>Delete</button>
                 </td>
                 <td>{id}</td>
                 <td>{first_name}</td>

@@ -1,9 +1,10 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState, useRecoilValue } from 'recoil';
-import { locationState } from "../atoms/location";
+import { locationState } from "../../atoms/location";
 
 function LocationsTable({ locations, editRow, deleteLocation }) {
+  console.log(locations);
   const setLocationState = useSetRecoilState(locationState);
   const navigate = useNavigate();
 
@@ -31,13 +32,14 @@ function LocationsTable({ locations, editRow, deleteLocation }) {
       <tbody>
         {locations.length > 0 ? (
           locations.map(location => {
-            const {id, name, street_address, country, state, city, zip_code, phone, number_lanes} = location;
+            const {id, name, street_address, country, state, city, zip_code, phone, number_lanes, tournaments} = location;
+            const isDeletable = tournaments.length === 0;
             return (
               <tr key={id}>
                 <td>
                   <button onClick={() => selectLocation(location)}>Select</button>
                   <button onClick={() => editRow(location)}>Update</button>
-                  <button onClick={() => deleteLocation(id)}>Delete</button>
+                  <button disabled={!isDeletable} onClick={() => deleteLocation(id)}>Delete</button>
                 </td>
                 <td>{id}</td>
                 <td>{name}</td>

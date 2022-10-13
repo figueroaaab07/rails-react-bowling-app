@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from 'recoil';
-import { locationState } from "../atoms/location";
-import { matchState } from "../atoms/match";
+import { locationState } from "../../atoms/location";
+import { matchState } from "../../atoms/match";
 
 function AddMatchTeamForm({ addMatchTeam, teams, lanes }) {
   const location = useRecoilValue(locationState);

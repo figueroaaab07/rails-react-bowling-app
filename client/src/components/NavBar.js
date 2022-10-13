@@ -17,27 +17,27 @@ function NavBar() {
   return (
     <header>
       <div>
-       <NavLink to="/">Home</NavLink>
-       <NavLink to="/about">About</NavLink>
+       <NavLink className="navlink-title" to="/">Home</NavLink>
+       <NavLink className="navlink-title" to="/about">About</NavLink>
       </div>
       <div>
         {user.email ? (
           <>
             <button onClick={handleLogoutClick}>Logout</button>
-            <NavLink to="/locations">Locations</NavLink>
-            <NavLink to="/tournaments">Tournaments</NavLink>
-            <NavLink to="/matches">Matches</NavLink>
-            <NavLink to="/match_teams">Match Teams</NavLink>
-            <NavLink to="/teams">Teams</NavLink>
-            <NavLink to="/bowlers">Bowlers</NavLink>
-            <NavLink to="/games">Games</NavLink>
-            <NavLink to="/bowler_games">Bowler Games</NavLink>
-            <NavLink to="/frames">Frames</NavLink>
+            <NavLink className="navlink-title" to="/locations">Locations</NavLink>
+            <NavLink className="navlink-title" to="/tournaments">Tournaments</NavLink>
+            <NavLink className="navlink-title" to="/matches">Matches</NavLink>
+            <NavLink className="navlink-title" to="/match_teams">Match Teams</NavLink>
+            <NavLink className="navlink-title" to="/teams">Teams</NavLink>
+            <NavLink className="navlink-title" to="/bowlers">Bowlers</NavLink>
+            <NavLink className="navlink-title" to="/games">Games</NavLink>
+            <NavLink className="navlink-title" to="/bowler_games">Bowler Games</NavLink>
+            <NavLink className="navlink-title" to="/frames">Frames</NavLink>
           </>
         ) : (
           <>
-            <NavLink to="/signup">Sign Up</NavLink>
-            <NavLink to="/Login">Login</NavLink>
+            <NavLink className="navlink-title" to="/signup">Sign Up</NavLink>
+            <NavLink className="navlink-title" to="/Login">Login</NavLink>
           </>
         )}
       </div>

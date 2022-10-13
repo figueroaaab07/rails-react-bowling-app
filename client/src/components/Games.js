@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSetRecoilState, useRecoilValue } from 'recoil';
 import { teamState } from "../atoms/team";
-import GamesTable from './GamesTable';
+import GamesTable from './tables/GamesTable';
 
 function Games() {
   const [teams, setTeams] = useState([]);

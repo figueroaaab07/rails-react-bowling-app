@@ -35,6 +35,12 @@ h2 {
   font-weight: bold;
 }
 
+.navlink-title {
+  color: black;
+  text-decoration: none;
+  padding: 0 5px;
+}
+
 .datebar {
   flex: 1 1 auto;
   margin: 0 1rem;

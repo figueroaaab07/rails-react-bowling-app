@@ -8,11 +8,12 @@ import {ErrorBoundary} from 'react-error-boundary';
 import ErrorFallback from "../modules/ErrorFallback"
 import bowlingScore from "../modules/bowlingScore";
 import parseGame from "../modules/parseGame";
-import FramesTable from './FramesTable';
+import FramesTable from './tables/FramesTable';
 
 function Frames() {
   const [game, setGame] = useState(['5/','9-','X','X','5/','8/','X','X','5/','8/9']);
   const result = parseGame(game);
+  const [bowlerGames, setBowlerGames] = useState(() => []);
   const [frames, setFrames] = useState(() => []);
   const [frame, setFrame] = useState(() => []);
   const [teams, setTeams] = useState(() => []);
@@ -28,6 +29,16 @@ function Frames() {
   };
   useEffect(() => {
     getFrames();
+  }, []);
+
+  async function getBowlerGames() {
+    const response = await fetch("/frames");
+    const json = await response.json();
+    setBowlerGames(json);
+    console.log(json);
+  };
+  useEffect(() => {
+    getBowlerGames();
   }, []);
 
   async function getTeams() {

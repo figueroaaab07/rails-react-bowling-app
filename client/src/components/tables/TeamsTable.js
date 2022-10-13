@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState, useRecoilValue } from 'recoil';
-import { teamState } from "../atoms/team";
+import { teamState } from "../../atoms/team";
 
 function TeamsTable({ teams, editRow, deleteTeam }) {
   const setTeamState = useSetRecoilState(teamState);
@@ -25,13 +25,14 @@ function TeamsTable({ teams, editRow, deleteTeam }) {
       <tbody>
         {teams.length > 0 ? (
           teams.map(team => {
-            const {id, name, logo} = team;
+            const {id, name, logo, bowlers} = team;
+            const isDeletable = bowlers.length === 0;
             return (
               <tr key={id}>
                 <td>
                   <button onClick={() => selectTeam(team)}>Select</button>
                   <button onClick={() => editRow(team)}>Update</button>
-                  <button onClick={() => deleteTeam(id)}>Delete</button>
+                  <button disabled={!isDeletable} onClick={() => deleteTeam(id)}>Delete</button>
                 </td>
                 <td>{id}</td>
                 <td>{name}</td>

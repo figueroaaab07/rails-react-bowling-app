@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import AddMatchTeamForm from "./AddMatchTeamForm";
-import EditMatchTeamForm from "./EditMatchTeamForm";
-import MatchTeamsTable from "./MatchTeamsTable";
+import AddMatchTeamForm from "./forms/AddMatchTeamForm";
+import EditMatchTeamForm from "./forms/EditMatchTeamForm";
+import MatchTeamsTable from "./tables/MatchTeamsTable";
 import { useRecoilValue } from 'recoil';
 import { tournamentState } from "../atoms/tournament";
 import { locationState } from "../atoms/location";
@@ -58,16 +58,22 @@ function MatchTeams() {
   }
 
   async function addMatchTeam(match_team) {
-    const requestOptions = {
+    console.log(matchTeams, match_team);
+    const checkMatchTeam = matchTeams.filter(matchTeam => ((matchTeam.home_team.id === Number(match_team.home_team_id)) || (matchTeam.home_team.id === Number(match_team.guest_team_id)) || (matchTeam.guest_team.id === Number(match_team.home_team_id)) || (matchTeam.guest_team.id === Number(match_team.guest_team_id)) || (matchTeam.lanes === match_team.lanes)))
+    // const checkMatchTeam = matchTeams.filter(matchTeam => (console.log(matchTeam.home_team.id, matchTeam.guest_team.id, match_team.home_team_id, match_team.guest_team_id)));
+    console.log(checkMatchTeam);
+    if (checkMatchTeam.length === 0) {
+      const requestOptions = {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(match_team)
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(match_team)
+      };
+      const response = await fetch("/match_teams", requestOptions);
+      const json = await response.json();
+      setMatchTeams(match_team => match_team.concat(json));
+      addGames(json.id);
     };
-    const response = await fetch("/match_teams", requestOptions);
-    const json = await response.json();
-    setMatchTeams(match_team => match_team.concat(json));
-    addGames(json.id);
-  };
+  }  
 
   async function deleteMatchTeam(id) {
     const response = await fetch(`/match_teams/${id}`, { method: 'DELETE' });

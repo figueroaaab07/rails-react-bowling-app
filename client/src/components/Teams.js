@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import AddTeamForm from "./AddTeamForm";
-import EditTeamForm from "./EditTeamForm";
-import TeamsTable from "./TeamsTable";
+import AddTeamForm from "./forms/AddTeamForm";
+import EditTeamForm from "./forms/EditTeamForm";
+import TeamsTable from "./tables/TeamsTable";
 
 function Teams() {
   const [teams, setTeams] = useState([]);
