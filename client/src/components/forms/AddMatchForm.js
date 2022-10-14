@@ -36,6 +36,7 @@ function AddMatchForm({ addMatch }) {
         <DatePicker
           selected={match.date}
           dateFormat="yyyy-MM-dd" 
+          includeDateIntervals={[{ start: new Date(tournament.start_date), end: new Date(tournament.end_date) },]}
           onChange={(date) => setMatch({...match, ["date"]: date})}
         />
         <label htmlFor="number_players">Number Players:</label>

@@ -13,7 +13,6 @@ function BowlerGames() {
   const game = useRecoilValue(gameState);
   const setBowlerGameState = useSetRecoilState(bowlerGameState);
   const navigate = useNavigate();
-  // const [checkedState, setCheckedState] = useState([false , false, false, false]);
 
   async function getBowlerGames() {
     const response = await fetch("/bowler_games");
@@ -49,6 +48,7 @@ function BowlerGames() {
       const response = await fetch("/bowler_games", requestOptions);
       const json = await response.json();
       console.log(json);
+      console.log(json.selected);
     }
     navigate("/frames");
   }
@@ -61,7 +61,7 @@ function BowlerGames() {
   }
 
   useEffect(() => {
-    fillBowlers(team, setBowlers, game);
+    fillBowlers(team, setBowlers, game, bowlerGames);
   }, []);
 
   return (
@@ -83,11 +83,11 @@ function BowlerGames() {
               </thead>
               <tbody>
                 {bowlers.length > 0 ? (
-                  bowlers.map(({bowler_id, bowler_first_name, bowler_last_name, selected}, index)  => {
+                  bowlers.map(({bowler_id, bowler_first_name, bowler_last_name, selected, disabled}, index)  => {
                     return (
                       <tr key={index}>
                         <td>
-                          <input type="checkbox" checked={selected} name="bowler_id" value={bowler_id} onChange={() => handleOnChange(index)} />
+                          <input type="checkbox" checked={selected} disabled={disabled} name="bowler_id" value={bowler_id} onChange={() => handleOnChange(index)} />
                         </td>
                         <td>{bowler_id}</td>
                         <td>{bowler_first_name}</td>

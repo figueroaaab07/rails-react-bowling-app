@@ -29,7 +29,7 @@ class BowlerGamesController < ApplicationController
   private
 
   def bowler_game_params
-    params.permit(:id, :game_score, :bowler_id, :game_id)
+    params.permit(:id, :game_score, :bowler_id, :game_id, :selected)
   end
 
   def find_bowler_game

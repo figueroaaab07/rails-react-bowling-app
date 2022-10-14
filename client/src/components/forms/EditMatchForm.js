@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from 'recoil';
+import { tournamentState } from "../../atoms/tournament";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format, parseISO } from 'date-fns'
 
 function EditMatchForm({ editing, setEditing, currentMatch, updateMatch }) {
+  const tournament = useRecoilValue(tournamentState);
   const [match, setMatch] = useState(currentMatch);
   const navigate = useNavigate();
 
@@ -32,6 +35,7 @@ function EditMatchForm({ editing, setEditing, currentMatch, updateMatch }) {
         <DatePicker
           selected={new Date(match.date)}
           dateFormat="yyyy-MM-dd" 
+          includeDateIntervals={[{ start: new Date(tournament.start_date), end: new Date(tournament.end_date) },]}
           onChange={(date) => setMatch({...match, ["date"]: date})}
         />
         <label htmlFor="number_players">Number Players:</label>

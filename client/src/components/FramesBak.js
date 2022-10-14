@@ -11,8 +11,8 @@ import parseGame from "../modules/parseGame";
 import FramesTable from './tables/FramesTable';
 
 function Frames() {
-  const [scoreboard, setScoreboard] = useState(() => []);
-  const result = parseGame(scoreboard);
+  const [game, setGame] = useState(() => []);
+  const result = parseGame(game);
   const [bowlerGames, setBowlerGames] = useState(() => []);
   const [frames, setFrames] = useState(() => []);
   const [frame, setFrame] = useState(() => []);
@@ -61,10 +61,10 @@ function Frames() {
       >
         {result.map(r => <div>frame: {r.outcome[0]} {r.outcome[1]}, cumulative: {r.cumulative}, score: {r.score}</div>)}
       </ErrorBoundary> */}
-      <FramesTable scoreboard={scoreboard} name="Richard"/>
-      <FramesTable scoreboard={scoreboard} name="Patrick"/>
-      <FramesTable scoreboard={scoreboard} name="Theresa"/>
-      <FramesTable scoreboard={scoreboard} name="Ernest"/>
+      <FramesTable game={game} result={result} name="Richard"/>
+      <FramesTable game={game} result={result} name="Patrick"/>
+      <FramesTable game={game} result={result} name="Theresa"/>
+      <FramesTable game={game} result={result} name="Ernest"/>
     </div>
   )
 }

@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 2022_09_18_164810) do
 
   create_table "bowler_games", force: :cascade do |t|
     t.integer "game_score"
-    t.boolean "selected"
+    t.boolean "selected", default: false, null: false
     t.bigint "bowler_id", null: false
     t.bigint "game_id", null: false
     t.datetime "created_at", precision: 6, null: false

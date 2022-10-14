@@ -64,7 +64,7 @@ function SignUp() {
           <option value="player">Bowler</option>
           <option value="captain">Captain</option>
           <option value="admin">Administrator</option>
-        </select>
+        </select><br></br>
 
         <button type="submit">Sign Up</button>
       </form>
