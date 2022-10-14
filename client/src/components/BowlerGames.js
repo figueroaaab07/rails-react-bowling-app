@@ -61,7 +61,7 @@ function BowlerGames() {
   }
 
   useEffect(() => {
-    fillBowlers(team, setBowlers, game, bowlerGames);
+    fillBowlers(team, setBowlers, game);
   }, []);
 
   return (

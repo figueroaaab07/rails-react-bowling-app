@@ -6,7 +6,6 @@ import { gameState } from "../atoms/game";
 import fillBowlers from "../modules/fillBowlers";
 import {ErrorBoundary} from 'react-error-boundary';
 import ErrorFallback from "../modules/ErrorFallback"
-import bowlingScore from "../modules/bowlingScore";
 import parseGame from "../modules/parseGame";
 import FramesTable from './tables/FramesTable';
 
