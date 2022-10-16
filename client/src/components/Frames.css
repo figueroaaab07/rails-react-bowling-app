@@ -81,7 +81,7 @@
   display: none;
 }
 
-/* .frame:last-child div.extra {
+.frame:last-child div.extra {
   display: flex;
   border-left: 1px solid black;
   border-bottom: 1px solid black;
@@ -94,15 +94,15 @@
 .frame-score div.right {
   border-left: 1px solid black;
   border-bottom: 1px solid black;
-} */
+}
 
-.frame:last-child input.extra {
-  display: flex;
+/* .frame:last-child input.extra {
+  display: flex; */
   /* border-width:0px; */
-  border:none;
+  /* border:none; */
   /* box-shadow: none;
   outline: none; */
-  background-color:transparent;
+  /* background-color:transparent;
   border-left: 1px solid black;
   border-bottom: 1px solid black;
 }
@@ -128,7 +128,7 @@
   border-bottom: 1px solid black;
 }
 
-.frame-score input:focus {outline:none!important;}
+.frame-score input:focus {outline:none!important;} */
 
 .controls-left {
   display: flex;

@@ -19,7 +19,13 @@ function Frames() {
   const team = useRecoilValue(teamState);
   const gamesFlat = useRecoilValue(gameState);
   const navigate = useNavigate();
+  console.log(gamesFlat);
 
+  const pins1 = '3';
+  const pins2 = '/';
+  const pins3 = null;
+  const frame1 = `${pins1}${pins2}${pins3 ? pins3 : ''}`;
+  console.log(frame1);
   async function getFrames() {
     const response = await fetch("/frames");
     const json = await response.json();
@@ -49,10 +55,31 @@ function Frames() {
     getTeams();
   }, []);
 
+  useEffect(() => {
+    setScoreboard(['8/','X','9-','X','X']);
+  }, []);
+
   console.log([...Array(10)]);
       
   return (
-    <div>
+		<div className="some-page-wrapper">
+      <h3>Tournament: {gamesFlat.tournament_name} - Date: {gamesFlat.match_date} - Game: {gamesFlat.game_number} - Lanes: {gamesFlat.match_team_lanes}</h3>
+      <h3>Home Team: {gamesFlat.home_team_name}</h3>
+			<div className="container">
+      {/* {locations.length > 0 ? (
+          locations.map(location => {
+            const {id, name, street_address, country, state, city, zip_code, phone, number_lanes, tournaments} = location;
+            const isDeletable = tournaments.length === 0;
+            return (
+              <tr key={id}>
+                <td> */}
+
+      <FramesTable scoreboard={scoreboard} name="Richard"/>
+      <FramesTable scoreboard={scoreboard} name="Patrick"/>
+      <FramesTable scoreboard={scoreboard} name="Theresa"/>
+    </div>
+    <h3>Guest Team: {gamesFlat.guest_team_name}</h3>
+			<div className="container">
       {/* <button onClick={() => setExplode(e => !e)}>toggle explode</button>
       <ErrorBoundary
         FallbackComponent={ErrorFallback}
@@ -60,10 +87,10 @@ function Frames() {
       >
         {result.map(r => <div>frame: {r.outcome[0]} {r.outcome[1]}, cumulative: {r.cumulative}, score: {r.score}</div>)}
       </ErrorBoundary> */}
-      <FramesTable scoreboard={scoreboard} name="Richard"/>
-      <FramesTable scoreboard={scoreboard} name="Patrick"/>
-      <FramesTable scoreboard={scoreboard} name="Theresa"/>
-      <FramesTable scoreboard={scoreboard} name="Ernest"/>
+        <FramesTable scoreboard={scoreboard} name="Richard"/>
+        <FramesTable scoreboard={scoreboard} name="Patrick"/>
+        <FramesTable scoreboard={scoreboard} name="Theresa"/>
+      </div>
     </div>
   )
 }

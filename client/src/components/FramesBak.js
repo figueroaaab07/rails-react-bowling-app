@@ -6,13 +6,12 @@ import { gameState } from "../atoms/game";
 import fillBowlers from "../modules/fillBowlers";
 import {ErrorBoundary} from 'react-error-boundary';
 import ErrorFallback from "../modules/ErrorFallback"
-import bowlingScore from "../modules/bowlingScore";
 import parseGame from "../modules/parseGame";
 import FramesTable from './tables/FramesTable';
 
 function Frames() {
-  const [game, setGame] = useState(() => []);
-  const result = parseGame(game);
+  const [scoreboard, setScoreboard] = useState(() => []);
+  const result = parseGame(scoreboard);
   const [bowlerGames, setBowlerGames] = useState(() => []);
   const [frames, setFrames] = useState(() => []);
   const [frame, setFrame] = useState(() => []);
@@ -20,6 +19,13 @@ function Frames() {
   const team = useRecoilValue(teamState);
   const gamesFlat = useRecoilValue(gameState);
   const navigate = useNavigate();
+  console.log(gamesFlat);
+
+  const pins1 = '3';
+  const pins2 = '/';
+  const pins3 = null;
+  const frame1 = `${pins1}${pins2}${pins3 ? pins3 : ''}`;
+  console.log(frame1);
 
   async function getFrames() {
     const response = await fetch("/frames");
@@ -61,10 +67,10 @@ function Frames() {
       >
         {result.map(r => <div>frame: {r.outcome[0]} {r.outcome[1]}, cumulative: {r.cumulative}, score: {r.score}</div>)}
       </ErrorBoundary> */}
-      <FramesTable game={game} result={result} name="Richard"/>
-      <FramesTable game={game} result={result} name="Patrick"/>
-      <FramesTable game={game} result={result} name="Theresa"/>
-      <FramesTable game={game} result={result} name="Ernest"/>
+      <FramesTable scoreboard={scoreboard} name="Richard"/>
+      <FramesTable scoreboard={scoreboard} name="Patrick"/>
+      <FramesTable scoreboard={scoreboard} name="Theresa"/>
+      <FramesTable scoreboard={scoreboard} name="Ernest"/>
     </div>
   )
 }

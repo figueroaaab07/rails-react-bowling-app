@@ -10,6 +10,10 @@ function FramesTable({ scoreboard, name }) {
   const result = parseGame(scoreboard);
   console.log(scoreboard, result);
 
+  function addUpdtFrame(frame) {
+    
+  }
+
   return (
     <div>
       <div className="player-name">{name}</div>
@@ -22,6 +26,7 @@ function FramesTable({ scoreboard, name }) {
             ball_two_pins={scoreboard[i]?.[1]}
             ball_three_pins={scoreboard[i]?.[2]} 
             frame_score={result[i]?.cumulative}
+            addUpdtFrame={addUpdtFrame}
           />
         ))}
       </div>
