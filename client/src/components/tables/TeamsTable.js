@@ -26,13 +26,14 @@ function TeamsTable({ teams, editRow, deleteTeam }) {
         {teams.length > 0 ? (
           teams.map(team => {
             const {id, name, logo, bowlers} = team;
-            const isDeletable = bowlers.length === 0;
+            // const isDeletable = bowlers.length === 0;
+            const isDelUpdable = !(bowlers?.length > 0);
             return (
               <tr key={id}>
                 <td>
                   <button onClick={() => selectTeam(team)}>Select</button>
-                  <button onClick={() => editRow(team)}>Update</button>
-                  <button disabled={!isDeletable} onClick={() => deleteTeam(id)}>Delete</button>
+                  <button disabled={!isDelUpdable} onClick={() => editRow(team)}>Update</button>
+                  <button disabled={!isDelUpdable} onClick={() => deleteTeam(id)}>Delete</button>
                 </td>
                 <td>{id}</td>
                 <td>{name}</td>

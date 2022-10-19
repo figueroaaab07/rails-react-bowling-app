@@ -7,11 +7,24 @@ import Frame from '../Frame';
 import '../Frames.css'
 
 function FramesTable({ scoreboard, name }) {
-  const result = parseGame(scoreboard);
-  console.log(scoreboard, result);
+  const [scoreBowling, setScoreBowling] = useState(scoreboard);
+  const [resultBowling, setResultBowling] = useState(parseGame(scoreboard));
+  // const result = parseGame(scoreboard);
+  // console.log(scoreboard, result);
 
   function addUpdtFrame(frame) {
-    
+    const frameUpd = `${frame.ball_one_pins ? frame.ball_one_pins : ''}${frame.ball_two_pins ? frame.ball_two_pins : ''}${frame.ball_three_pins ? frame.ball_three_pins : ''}`;
+    console.log(frame.frame_number);
+    if (frame.frame_number > scoreBowling.length) {
+      setResultBowling(parseGame([...scoreBowling, frameUpd]));
+      setScoreBowling([...scoreBowling, frameUpd]);
+      console.log([...scoreBowling, frameUpd]);
+    }else{
+		  setScoreBowling(scoreBowling.map((scoreFrame, index) => (index + 1 === frame.frame_number ? frameUpd : scoreFrame)));
+      console.log(scoreBowling.map((scoreFrame, index) => (index + 1 === frame.frame_number ? frameUpd : scoreFrame)));
+      setResultBowling(parseGame(scoreBowling.map((scoreFrame, index) => (index + 1 === frame.frame_number ? frameUpd : scoreFrame))));
+      console.log(parseGame(scoreBowling.map((scoreFrame, index) => (index + 1 === frame.frame_number ? frameUpd : scoreFrame))));
+    }
   }
 
   return (
@@ -22,11 +35,13 @@ function FramesTable({ scoreboard, name }) {
           <Frame
             key={i}
             frame_number={i + 1}
-            ball_one_pins={scoreboard[i]?.[0]}
-            ball_two_pins={scoreboard[i]?.[1]}
-            ball_three_pins={scoreboard[i]?.[2]} 
-            frame_score={result[i]?.cumulative}
+            ball_one_pins={scoreBowling[i]?.[0]}
+            ball_two_pins={scoreBowling[i]?.[1]}
+            ball_three_pins={scoreBowling[i]?.[2]} 
+            frame_score={resultBowling[i]?.cumulative}
             addUpdtFrame={addUpdtFrame}
+            scoreBowling={scoreBowling}
+            resultBowling={resultBowling}
           />
         ))}
       </div>

@@ -33,13 +33,13 @@ function LocationsTable({ locations, editRow, deleteLocation }) {
         {locations.length > 0 ? (
           locations.map(location => {
             const {id, name, street_address, country, state, city, zip_code, phone, number_lanes, tournaments} = location;
-            const isDeletable = tournaments.length === 0;
+            const isDelUpdable = !(tournaments?.length > 0);
             return (
               <tr key={id}>
                 <td>
                   <button onClick={() => selectLocation(location)}>Select</button>
-                  <button onClick={() => editRow(location)}>Update</button>
-                  <button disabled={!isDeletable} onClick={() => deleteLocation(id)}>Delete</button>
+                  <button disabled={!isDelUpdable} onClick={() => editRow(location)}>Update</button>
+                  <button disabled={!isDelUpdable} onClick={() => deleteLocation(id)}>Delete</button>
                 </td>
                 <td>{id}</td>
                 <td>{name}</td>

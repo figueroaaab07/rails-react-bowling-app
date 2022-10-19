@@ -39,7 +39,7 @@ function MatchesTable({ matches, editRow, deleteMatch }) {
           matches.map(match => {
             const {id, date, number_players, number_games} = match;
             const matchAssigned = matchTeams.filter(matchTeam => matchTeam.match.id === id);
-            const isDelUpdable = matchAssigned.length === 0;
+            const isDelUpdable = !(matchAssigned?.length > 0);
             return (
               <tr key={id}>
                 <td>

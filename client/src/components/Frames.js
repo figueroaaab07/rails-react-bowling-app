@@ -10,7 +10,7 @@ import parseGame from "../modules/parseGame";
 import FramesTable from './tables/FramesTable';
 
 function Frames() {
-  const [scoreboard, setScoreboard] = useState(() => []);
+  const [scoreboard, setScoreboard] = useState(() => ['8/','X','9-','X','X']);
   const result = parseGame(scoreboard);
   const [bowlerGames, setBowlerGames] = useState(() => []);
   const [frames, setFrames] = useState(() => []);
@@ -39,6 +39,7 @@ function Frames() {
   async function getBowlerGames() {
     const response = await fetch("/bowler_games");
     const json = await response.json();
+    console.log(json.filter((bowlerGame) => (bowlerGame.game.id === gamesFlat.game_id && bowlerGame.selected === true)));
     setBowlerGames(json);
     console.log(json);
   };
@@ -49,15 +50,25 @@ function Frames() {
   async function getTeams() {
     const response = await fetch("/teams");
     const json = await response.json();
-    setTeams(json);
+    console.log(json.filter((team) => (team.id === gamesFlat.home_team_id || team.id === gamesFlat.guest_team_id)));
+    // console.log(json);
+    setTeams(json.filter((team) => (team.id === gamesFlat.home_team_id || team.id === gamesFlat.guest_team_id)));
   };
   useEffect(() => {
     getTeams();
   }, []);
 
-  useEffect(() => {
-    setScoreboard(['8/','X','9-','X','X']);
+  function fillTeams(teams, bowlerGames) {
+    console.log(teams, bowlerGames);
+  }
+
+  useEffect (() => {
+    fillTeams(teams, bowlerGames);
   }, []);
+
+  // useEffect(() => {
+  //   setScoreboard(['8/','X','9-','X','X']);
+  // }, []);
 
   console.log([...Array(10)]);
       
