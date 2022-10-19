@@ -9,8 +9,6 @@ import '../Frames.css'
 function FramesTable({ scoreboard, name }) {
   const [scoreBowling, setScoreBowling] = useState(scoreboard);
   const [resultBowling, setResultBowling] = useState(parseGame(scoreboard));
-  // const result = parseGame(scoreboard);
-  // console.log(scoreboard, result);
 
   function addUpdtFrame(frame) {
     const frameUpd = `${frame.ball_one_pins ? frame.ball_one_pins : ''}${frame.ball_two_pins ? frame.ball_two_pins : ''}${frame.ball_three_pins ? frame.ball_three_pins : ''}`;
@@ -19,7 +17,7 @@ function FramesTable({ scoreboard, name }) {
       setResultBowling(parseGame([...scoreBowling, frameUpd]));
       setScoreBowling([...scoreBowling, frameUpd]);
       console.log([...scoreBowling, frameUpd]);
-    }else{
+    } else {
 		  setScoreBowling(scoreBowling.map((scoreFrame, index) => (index + 1 === frame.frame_number ? frameUpd : scoreFrame)));
       console.log(scoreBowling.map((scoreFrame, index) => (index + 1 === frame.frame_number ? frameUpd : scoreFrame)));
       setResultBowling(parseGame(scoreBowling.map((scoreFrame, index) => (index + 1 === frame.frame_number ? frameUpd : scoreFrame))));

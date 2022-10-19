@@ -3,25 +3,18 @@ import './Frames.css'
 
 function Frame({ frame_number, ball_one_pins, ball_two_pins, ball_three_pins, frame_score, addUpdtFrame, scoreBowling, resultBowling }) {
   const initFrame = {frame_number: frame_number, ball_one_pins: ball_one_pins, ball_two_pins: ball_two_pins, ball_three_pins: ball_three_pins, frame_score: frame_score};
-  // const initFrame = useMemo(() => {
-  //   return {frame_number: frame_number, ball_one_pins: ball_one_pins, ball_two_pins: ball_two_pins, ball_three_pins: ball_three_pins, frame_score: frame_score};
-  // }, []);
   const [frame, setFrame] = useState(() => []);
-  // const valid_ball_one_pins = /^[XF0-9-]$/i
-  // const valid_ball_two_pins = /^[XF0-9-/]$/i
-  // const valid_ball_three_pins = /^[XF0-9-/]?$/i
   const valid_ball_one_pins = new RegExp('^[XF0-9-]');
   const valid_ball_two_pins = new RegExp('^[XF0-9-/]');
   const valid_ball_three_pins = new RegExp('^[XF0-9-/]');
   const div_ball_one_pins = useRef(initFrame.ball_one_pins);
   const div_ball_two_pins = useRef(initFrame.ball_two_pins);
   const div_ball_three_pins = useRef(initFrame.ball_three_pins);
-  console.log(scoreBowling, resultBowling, frame_score);
-
+  const div_frame_score = useRef(initFrame.frame_score);
+  console.log(initFrame);
   useEffect(() => {
    setFrame(initFrame);
-  }, []);  
-  // console.log(frame);
+  }, [resultBowling]);  
 
   const nameElement = (eventTarget) => {
     switch(eventTarget) {
@@ -33,16 +26,11 @@ function Frame({ frame_number, ball_one_pins, ball_two_pins, ball_three_pins, fr
 
   const onChange = (event) => {
     const name = nameElement(event.target.className);
-    // const adjust = `div_${name}`;
     const validate = `valid_${name}`;
-    // console.log(eval(adjust).current.innerText);
-    // console.log(div_ball_one_pins.current.innerText);
-    // console.log(valid_ball_one_pins.test(event.target.innerText), event.target.innerText, initFrame[name]);
     if (event.target.innerText.length === 1 && eval(validate).test(event.target.innerText)) {
       setFrame({...frame, [name]: event.target.innerText});
     } else {
       setFrame({...frame, [name]: initFrame[name]});
-      // eval(adjust).current.innerText = initFrame[name];
     }
   }
   
@@ -58,35 +46,24 @@ function Frame({ frame_number, ball_one_pins, ball_two_pins, ball_three_pins, fr
     const validate = `valid_${name}`;
     if (event.target.innerText.trim() === "" || event.target.innerText.length > 1 || !eval(validate).test(event.target.innerText)) {
       setFrame(frame => ({...frame, [name]: initFrame[name]}));
-      eval(adjust).current.innerText = initFrame[name];
+      eval(adjust).current.innerText = (initFrame[name] ? initFrame[name] : '');
       console.log(initFrame[name]);
     } else {
-      // onChange(event, addUpdtFrame(frame));
       addUpdtFrame({...frame, [name]: event.target.innerText});
       setFrame({...frame, [name]: event.target.innerText});
       console.log({...frame, [name]: event.target.innerText});
     }
   }
 
-  console.log(frame);
-  // function handleChange(e) {
-  //   console.log(e.target);
-  //   const {name, value} = e.target;
-  // frame =  ({...frame, [name]: value});
-  // }
-
   return (
       <div className="frame">
         <div className="frame-number">{frame?.frame_number}</div>
         <div className="frame-score">
-          {/* <div className="box left" frame_number={frame.frame_number} name="ball_one_pins" contentEditable="true" onInput={(e) => console.log(e.target)} suppressContentEditableWarning={true}>{frame.ball_one_pins}</div>
-          <div className="box right" frame_number={frame.frame_number} name="ball_two_pins" contentEditable="true" onInput={(e) => console.log(e.target)} suppressContentEditableWarning={true}>{frame.ball_two_pins}</div>
-          <div className="box extra" frame_number={frame.frame_number} name="ball_three_pins" contentEditable="true" onInput={(e) => console.log(e.target)} suppressContentEditableWarning={true}>{frame.ball_three_pins}</div> */}
           <div ref={div_ball_one_pins} className="box left" frame_number={frame?.frame_number} name="ball_one_pins" contentEditable="true" onInput={onChange} onBlur={onBlur} onKeyDown={onKeyDown} suppressContentEditableWarning={true}>{frame?.ball_one_pins}</div>
           <div ref={div_ball_two_pins} className="box right" frame_number={frame?.frame_number} name="ball_two_pins" contentEditable="true" onInput={onChange} onBlur={onBlur} onKeyDown={onKeyDown} suppressContentEditableWarning={true}>{frame?.ball_two_pins}</div>
           <div ref={div_ball_three_pins} className="box extra" frame_number={frame?.frame_number} name="ball_three_pins" contentEditable="true" onInput={onChange} onBlur={onBlur} onKeyDown={onKeyDown} suppressContentEditableWarning={true}>{frame?.ball_three_pins}</div>
         </div>
-        <div className="running-score">{!isNaN(frame?.frame_score) && frame.frame_score}</div>
+        <div ref={div_frame_score} className="running-score">{frame.frame_score}</div>
       </div>
   )
 }
