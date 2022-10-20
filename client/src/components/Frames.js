@@ -11,10 +11,10 @@ import parseGame from "../modules/parseGame";
 import FramesTable from './tables/FramesTable';
 
 function Frames() {
-  const [scoreboard, setScoreboard] = useState(() => ['8/','X','9-','X','X']);
+  // const [scoreboard, setScoreboard] = useState(() => ['8/','X','9-','X','X']);
   const [bowlerGames, setBowlerGames] = useState(() => []);
   const [frames, setFrames] = useState(() => []);
-  const [frame, setFrame] = useState(() => []);
+  // const [frame, setFrame] = useState(() => []);
   const [teams, setTeams] = useState(() => []);
   const gamesFlat = useRecoilValue(gameState);
   const setHomeBowlerGames = useSetRecoilState(homeBowlerGamesState);
@@ -32,6 +32,16 @@ function Frames() {
   const pins3 = null;
   const frame1 = `${pins1}${pins2}${pins3 ? pins3 : ''}`;
   console.log(frame1);
+
+  async function getFrames() {
+    const response = await fetch("/frames");
+    const json = await response.json();
+    setFrames(json);
+    console.log(json);
+  };
+  useEffect(() => {
+    getFrames();
+  }, []);
 
   async function getBowlerGamesAndTeams(){
     const bowlerGames = await fetch("/bowler_games").then(res => res.json()).then(data => data.filter((bowlerGame) => (bowlerGame.game.id === gamesFlat.game_id && bowlerGame.selected === true)));
