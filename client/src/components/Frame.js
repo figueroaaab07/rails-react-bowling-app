@@ -11,7 +11,7 @@ function Frame({ frame_number, ball_one_pins, ball_two_pins, ball_three_pins, fr
   const div_ball_two_pins = useRef(initFrame.ball_two_pins);
   const div_ball_three_pins = useRef(initFrame.ball_three_pins);
   const div_frame_score = useRef(initFrame.frame_score);
-  console.log(initFrame);
+  // console.log(initFrame);
   useEffect(() => {
    setFrame(initFrame);
   }, [resultBowling]);  

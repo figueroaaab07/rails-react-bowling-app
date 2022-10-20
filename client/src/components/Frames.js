@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState, useRecoilValue } from 'recoil';
 // import { teamState } from "../atoms/team";
 import { gameState } from "../atoms/game";
+import { homeBowlerGamesState } from "../atoms/homeBowlerGames";
+import { guestBowlerGamesState } from "../atoms/guestBowlerGames";
 import {ErrorBoundary} from 'react-error-boundary';
 import ErrorFallback from "../modules/ErrorFallback"
 import parseGame from "../modules/parseGame";
@@ -15,9 +17,16 @@ function Frames() {
   const [frame, setFrame] = useState(() => []);
   const [teams, setTeams] = useState(() => []);
   // const team = useRecoilValue(teamState);
-  const result = parseGame(scoreboard);
+  // const result = parseGame(scoreboard);
   const gamesFlat = useRecoilValue(gameState);
+  const setHomeBowlerGames = useSetRecoilState(homeBowlerGamesState);
+  const setGuestBowlerGames = useSetRecoilState(guestBowlerGamesState);
+  const homeAtom = useRecoilValue(homeBowlerGamesState);
+  const guestAtom = useRecoilValue(guestBowlerGamesState);
+
   const navigate = useNavigate();
+  let homeBowlerGames = [];
+  let guestBowlerGames = [];
   console.log(gamesFlat);
 
   const pins1 = '3';
@@ -32,35 +41,48 @@ function Frames() {
     const teams = await fetch("/teams").then(res => res.json()).then(data => data.filter((team) => (team.id === gamesFlat.home_team_id || team.id === gamesFlat.guest_team_id)));
     setTeams(teams);
     console.log(bowlerGames, teams);
-    // const homeBowlerGames = bowlerGames.filter(bowlerGame => gamesFlat.home_team_id === )
+    const homeBowlersId = teams.filter(team => team.id === gamesFlat.home_team_id)[0].bowlers.map(bowler => bowler.id);
+    const guestBowlersId = teams.filter(team => team.id === gamesFlat.guest_team_id)[0].bowlers.map(bowler => bowler.id);
+    homeBowlerGames = bowlerGames.filter(bowlerGame => homeBowlersId.includes(bowlerGame.bowler.id));
+    setHomeBowlerGames(homeBowlerGames);
+    guestBowlerGames = bowlerGames.filter(bowlerGame => guestBowlersId.includes(bowlerGame.bowler.id));
+    setGuestBowlerGames(guestBowlerGames);
+    console.log(homeBowlerGames, guestBowlerGames);
+    guestBowlerGames.map(({bowler, frames})  => {
+      console.log(bowler.id, frames,`${bowler.first_name} ${bowler.last_name}`)
+    });
   }
-  useEffect(() => {
+  useLayoutEffect(() => {
     getBowlerGamesAndTeams();
   }, []);
 
-  console.log([...Array(10)]);
-      
   return (
 		<div className="some-page-wrapper">
       <h3>Tournament: {gamesFlat.tournament_name} - Date: {gamesFlat.match_date} - Game: {gamesFlat.game_number} - Lanes: {gamesFlat.match_team_lanes}</h3>
       <h3>Home Team: {gamesFlat.home_team_name}</h3>
 			<div className="container">
-        <FramesTable scoreboard={scoreboard} name="Richard"/>
-        <FramesTable scoreboard={scoreboard} name="Patrick"/>
-        <FramesTable scoreboard={scoreboard} name="Theresa"/>
+        {homeAtom.length > 0 && (
+          homeAtom.map(homeBowlerGame => {
+            const {frames, bowler} = homeBowlerGame;
+            return (
+              <FramesTable key={bowler.id} scoreboard={frames} name={`${bowler.first_name} ${bowler.last_name}`}/>
+            )
+          })
+        )}
+        {/* <FramesTable scoreboard={scoreboard} name="Kenny"/>
+        <FramesTable scoreboard={scoreboard} name="Kenny"/>
+        <FramesTable scoreboard={scoreboard} name="Kenny"/> */}
       </div>
       <h3>Guest Team: {gamesFlat.guest_team_name}</h3>
 			<div className="container">
-      {/* <button onClick={() => setExplode(e => !e)}>toggle explode</button>
-      <ErrorBoundary
-        FallbackComponent={ErrorFallback}
-        onReset={() => setGame(['5/','9-','X','X','5/','8'])}
-      >
-        {result.map(r => <div>frame: {r.outcome[0]} {r.outcome[1]}, cumulative: {r.cumulative}, score: {r.score}</div>)}
-      </ErrorBoundary> */}
-        <FramesTable scoreboard={scoreboard} name="Richard"/>
-        <FramesTable scoreboard={scoreboard} name="Patrick"/>
-        <FramesTable scoreboard={scoreboard} name="Theresa"/>
+        {guestAtom.length > 0 && (
+          guestAtom.map((guestBowlerGame) => {
+            const {frames, bowler} = guestBowlerGame;
+            return (
+              <FramesTable key={bowler.id} scoreboard={frames} name={`${bowler.first_name} ${bowler.last_name}`}/>
+            )
+          })
+        )}
       </div>
     </div>
   )
