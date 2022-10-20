@@ -16,8 +16,6 @@ function Frames() {
   const [frames, setFrames] = useState(() => []);
   const [frame, setFrame] = useState(() => []);
   const [teams, setTeams] = useState(() => []);
-  // const team = useRecoilValue(teamState);
-  // const result = parseGame(scoreboard);
   const gamesFlat = useRecoilValue(gameState);
   const setHomeBowlerGames = useSetRecoilState(homeBowlerGamesState);
   const setGuestBowlerGames = useSetRecoilState(guestBowlerGamesState);
@@ -69,9 +67,6 @@ function Frames() {
             )
           })
         )}
-        {/* <FramesTable scoreboard={scoreboard} name="Kenny"/>
-        <FramesTable scoreboard={scoreboard} name="Kenny"/>
-        <FramesTable scoreboard={scoreboard} name="Kenny"/> */}
       </div>
       <h3>Guest Team: {gamesFlat.guest_team_name}</h3>
 			<div className="container">

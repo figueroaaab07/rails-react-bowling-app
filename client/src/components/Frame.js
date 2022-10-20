@@ -44,7 +44,7 @@ function Frame({ frame_number, ball_one_pins, ball_two_pins, ball_three_pins, fr
     const name = nameElement(event.target.className);
     const adjust = `div_${name}`;
     const validate = `valid_${name}`;
-    if (event.target.innerText.trim() === "" || event.target.innerText.length > 1 || !eval(validate).test(event.target.innerText) || (name === "ball_two_pins" && event.target.innerText === 'X' && frame.frame_number !== 10) || (name === "ball_two_pins" && event.target.innerText !== '/' && (event.target.innerText + frame.ball_one_pins) > 10)) {
+    if (event.target.innerText.trim() === "" || event.target.innerText.length > 1 || !eval(validate).test(event.target.innerText) || (name === "ball_two_pins" && event.target.innerText === 'X' && frame.frame_number !== 10) || (name === "ball_two_pins" && event.target.innerText !== '/' && (event.target.innerText + frame.ball_one_pins) > 10) || frame.frame_number > scoreBowling.length + 1 || (name === "ball_two_pins" && event.target.innerText === 'X' && frame.frame_number !== 10) || (name === "ball_two_pins" && frame.ball_one_pins === 'X' && frame.frame_number !== 10 && (event.target.innerText !== ''))) {
       setFrame(frame => ({...frame, [name]: initFrame[name]}));
       eval(adjust).current.innerText = (initFrame[name] ? initFrame[name] : '');
       console.log(initFrame[name]);
