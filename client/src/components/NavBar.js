@@ -27,15 +27,18 @@ function NavBar() {
       <div> */}
         {user.email ? (
           <>
-            <NavLink className="navlink-title" style={style} to="/locations">Locations</NavLink>
-            <NavLink className="navlink-title" style={style} to="/tournaments">Tournaments</NavLink>
+            {/* <NavLink className="navlink-title" style={style} to="/locations">Locations</NavLink> */}
+            <NavLink className="navlink-title" style={style} to="/locations">Match Team Administration</NavLink>
+            {/* <NavLink className="navlink-title" style={style} to="/tournaments">Tournaments</NavLink>
             <NavLink className="navlink-title" style={style} to="/matches">Matches</NavLink>
             <NavLink className="navlink-title" style={style} to="/match_teams">Match Teams</NavLink>
-            <NavLink className="navlink-title" style={style} to="/teams">Teams</NavLink>
-            <NavLink className="navlink-title" style={style} to="/bowlers">Bowlers</NavLink>
-            <NavLink className="navlink-title" style={style} to="/games">Games</NavLink>
-            <NavLink className="navlink-title" style={style} to="/bowler_games">Bowler Games</NavLink>
-            <NavLink className="navlink-title" style={style} to="/frames">Frames</NavLink>
+            <NavLink className="navlink-title" style={style} to="/teams">Teams</NavLink> */}
+            <NavLink className="navlink-title" style={style} to="/teams">Team Administration</NavLink>
+            {/* <NavLink className="navlink-title" style={style} to="/bowlers">Bowlers</NavLink>
+            <NavLink className="navlink-title" style={style} to="/games">Games</NavLink> */}
+            <NavLink className="navlink-title" style={style} to="/games">Enjoy Games</NavLink>
+            {/* <NavLink className="navlink-title" style={style} to="/bowler_games">Bowler Games</NavLink>
+            <NavLink className="navlink-title" style={style} to="/frames">Frames</NavLink> */}
             <button onClick={handleLogoutClick}>Logout</button>
           </>
         ) : (

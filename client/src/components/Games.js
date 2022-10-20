@@ -107,6 +107,7 @@ function Games() {
 		<div className="some-page-wrapper">
 			<div className="row">
 				<div className="column">
+          <h3>Select Team</h3>
           <form>
             <label htmlFor="team">Team:</label>
             <select onChange={handleChange}>
@@ -121,6 +122,7 @@ function Games() {
         </div>
         <div className="double-column">
           <div className="container">
+            <h3>View Games</h3>
             <GamesTable gamesFlat={gamesFlat} />
           </div>
         </div>

@@ -67,10 +67,11 @@ function BowlerGames() {
   return (
 		<div className="some-page-wrapper">
 			<div className="row">
-				<div className="column">
-          <button className="button-submit" type="submit" onClick={handleSubmit} >Bowlers Selected</button>
-        </div>
 				<div className="double-column">
+          <h3>Select Bowlers</h3>
+          {/* <button className="button-submit" type="submit" onClick={handleSubmit} >Bowlers Selected</button>
+        </div>
+				<div className="double-column"> */}
           <div className="container">
             <table>
               <thead>
@@ -97,12 +98,13 @@ function BowlerGames() {
                   })
                   ) : (
                     <tr>
-                      <td colSpan={4}>No games found</td>
+                      <td colSpan={4}>No bowlers found</td>
                     </tr>
                   )   
                 }
               </tbody>
-            </table>  
+            </table><br></br>
+            <button className="button-submit" type="submit" onClick={handleSubmit} >Bowlers Selected</button>
           </div>
         </div>
       </div>

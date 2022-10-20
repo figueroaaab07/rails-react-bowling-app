@@ -131,7 +131,7 @@ function MatchTeams() {
 						</>
 					)}
 				</div>
-				<div className="view-user">
+				<div className="double-column">
           <div className="container">
 					  <h3>View Match Teams</h3>
 					  <MatchTeamsTable matchTeams={matchTeams} editRow={editRow} deleteMatchTeam={deleteMatchTeam} teams={teams} />

@@ -75,7 +75,7 @@ function Teams() {
 						</>
 					)}
 				</div>
-				<div className="view-user">
+				<div className="double-column">
           <div className="container">
 					  <h3>View Teams</h3>
 					  <TeamsTable teams={teams} editRow={editRow} deleteTeam={deleteTeam} />
