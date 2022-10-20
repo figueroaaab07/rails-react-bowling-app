@@ -6,11 +6,11 @@ import parseGame from "../../modules/parseGame";
 import Frame from '../Frame';
 import '../Frames.css'
 
-function FramesTable({ scoreboard, name, allFrames, setAllFrames, bowlerGame }) {
+function FramesTable({ scoreboard, name, allFrames, setAllFrames }) {
   const [scoreBowling, setScoreBowling] = useState(scoreboard);
   const [resultBowling, setResultBowling] = useState(parseGame(scoreboard));
-  console.log(scoreboard, name, allFrames, bowlerGame);
-
+  console.log(scoreboard, name, allFrames);
+  
   function addUpdtFrame(frame) {
     const frameUpd = `${frame.ball_one_pins ? frame.ball_one_pins : ''}${frame.ball_two_pins ? frame.ball_two_pins : ''}${frame.ball_three_pins ? frame.ball_three_pins : ''}`;
     console.log(frame.frame_number);

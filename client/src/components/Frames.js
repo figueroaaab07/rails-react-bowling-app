@@ -13,7 +13,7 @@ import FramesTable from './tables/FramesTable';
 function Frames() {
   // const [scoreboard, setScoreboard] = useState(() => ['8/','X','9-','X','X']);
   const [bowlerGames, setBowlerGames] = useState(() => []);
-  const [frames, setFrames] = useState(() => []);
+  const [allFrames, setAllFrames] = useState(() => []);
   // const [frame, setFrame] = useState(() => []);
   const [teams, setTeams] = useState(() => []);
   const gamesFlat = useRecoilValue(gameState);
@@ -33,22 +33,24 @@ function Frames() {
   const frame1 = `${pins1}${pins2}${pins3 ? pins3 : ''}`;
   console.log(frame1);
 
-  async function getFrames() {
-    const response = await fetch("/frames");
-    const json = await response.json();
-    setFrames(json);
-    console.log(json);
-  };
-  useEffect(() => {
-    getFrames();
-  }, []);
+  // async function getFrames() {
+  //   const response = await fetch("/frames");
+  //   const json = await response.json();
+  //   setFrames(json);
+  //   console.log(json);
+  // };
+  // useEffect(() => {
+  //   getFrames();
+  // }, []);
 
   async function getBowlerGamesAndTeams(){
     const bowlerGames = await fetch("/bowler_games").then(res => res.json()).then(data => data.filter((bowlerGame) => (bowlerGame.game.id === gamesFlat.game_id && bowlerGame.selected === true)));
     setBowlerGames(bowlerGames);
     const teams = await fetch("/teams").then(res => res.json()).then(data => data.filter((team) => (team.id === gamesFlat.home_team_id || team.id === gamesFlat.guest_team_id)));
     setTeams(teams);
-    console.log(bowlerGames, teams);
+    const frames = await fetch("/frames").then(res => res.json());
+    setAllFrames(frames);
+    console.log(bowlerGames, teams, frames);
     const homeBowlersId = teams.filter(team => team.id === gamesFlat.home_team_id)[0].bowlers.map(bowler => bowler.id);
     const guestBowlersId = teams.filter(team => team.id === gamesFlat.guest_team_id)[0].bowlers.map(bowler => bowler.id);
     homeBowlerGames = bowlerGames.filter(bowlerGame => homeBowlersId.includes(bowlerGame.bowler.id));
@@ -73,7 +75,7 @@ function Frames() {
           homeAtom.map(homeBowlerGame => {
             const {frames, bowler} = homeBowlerGame;
             return (
-              <FramesTable key={bowler.id} scoreboard={frames} name={`${bowler.first_name} ${bowler.last_name}`}/>
+              <FramesTable key={bowler.id} scoreboard={frames} name={`${bowler.first_name} ${bowler.last_name}`} allFrames={allFrames} setAllFrames={setAllFrames} bowlerGame={homeBowlerGame} />
             )
           })
         )}
@@ -84,7 +86,7 @@ function Frames() {
           guestAtom.map((guestBowlerGame) => {
             const {frames, bowler} = guestBowlerGame;
             return (
-              <FramesTable key={bowler.id} scoreboard={frames} name={`${bowler.first_name} ${bowler.last_name}`}/>
+              <FramesTable key={bowler.id} scoreboard={frames} name={`${bowler.first_name} ${bowler.last_name}`} allFrames={allFrames} setAllFrames={setAllFrames} bowlerGame={guestBowlerGame} />
             )
           })
         )}
