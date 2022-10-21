@@ -3,6 +3,7 @@ import AddLocationForm from "./forms/AddLocationForm";
 import EditLocationForm from "./forms/EditLocationForm";
 import LocationsTable from "./tables/LocationsTable";
 import '../newIndex.css'
+import ErrorHand from "./ErrorHand";
 
 function Locations() {
   const [locations, setLocations] = useState([]);
@@ -96,13 +97,7 @@ function Locations() {
 				</div>
 				<div className="double-column">
           <div className="container">
-            {errors.length > 0 && (
-              <ul style={{ color: "red" }}>
-                {errors.map((error) => (
-                  <li key={error}>{error}</li>
-                ))}
-              </ul>
-            )}
+            {errors.length > 0 && (<ErrorHand errors={errors} setErrors={setErrors} />)}
             <h3>View Locations</h3>
 					  <LocationsTable locations={locations} editRow={editRow} deleteLocation={deleteLocation} />
           </div>

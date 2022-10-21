@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from 'recoil';
 import { userState } from "../atoms/user";
+import ErrorHand from "./ErrorHand";
 
 function Login() {
   const setUserState = useSetRecoilState(userState);
@@ -22,10 +23,11 @@ function Login() {
     }).then((r) => {
       if (r.ok) {
         r.json().then((json) => setUserState(json));
-       } else {
-        r.json().then((json) => setErrors(json.errors));
-      }
-    navigate("/");
+        navigate("/");
+      } else {
+        r.json().then((json) => {
+        setErrors(json.errors);
+       })}
     });
   }
 
@@ -51,13 +53,7 @@ function Login() {
         /><br></br>
         <button type="submit">Login</button>
       </form>
-      {errors.length > 0 && (
-        <ul style={{ color: "red" }}>
-          {errors.map((error) => (
-            <li key={error}>{error}</li>
-          ))}
-        </ul>
-      )}
+      {errors.length > 0 && (<ErrorHand errors={errors} setErrors={setErrors} />)}
     </div>
   );
 }
