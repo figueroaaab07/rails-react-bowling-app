@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from 'recoil';
 import { matchState } from "../../atoms/match";
+import ErrorHand from "../ErrorHand";
 
 function MatchesTable({ matches, editRow, deleteMatch }) {
   const [matchTeams, setMatchTeams] = useState([]);
@@ -29,13 +30,7 @@ function MatchesTable({ matches, editRow, deleteMatch }) {
 
   return (
     <>
-      {errors.length > 0 && (
-        <ul style={{ color: "red" }}>
-          {errors.map((error) => (
-            <li key={error}>{error}</li>
-          ))}
-        </ul>
-      )}					  
+      {errors.length > 0 && (<ErrorHand errors={errors} setErrors={setErrors} />)}
       <table>
         <thead>
           <tr>

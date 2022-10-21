@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSetRecoilState, useRecoilValue } from 'recoil';
 import { teamState } from "../atoms/team";
 import GamesTable from './tables/GamesTable';
+import ErrorHand from "./ErrorHand";
 
 function Games() {
   const [teams, setTeams] = useState([]);
@@ -133,13 +134,7 @@ function Games() {
         </div>
         <div className="double-column">
           <div className="container">
-            {errors.length > 0 && (
-              <ul style={{ color: "red" }}>
-                {errors.map((error) => (
-                  <li key={error}>{error}</li>
-                ))}
-              </ul>
-            )}					  
+            {errors.length > 0 && (<ErrorHand errors={errors} setErrors={setErrors} />)}
             <h3>View Games</h3>
             <GamesTable gamesFlat={gamesFlat} />
           </div>

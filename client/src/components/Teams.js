@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AddTeamForm from "./forms/AddTeamForm";
 import EditTeamForm from "./forms/EditTeamForm";
 import TeamsTable from "./tables/TeamsTable";
+import ErrorHand from "./ErrorHand";
 
 function Teams() {
   const [teams, setTeams] = useState([]);
@@ -93,13 +94,7 @@ function Teams() {
 				</div>
 				<div className="double-column">
           <div className="container">
-            {errors.length > 0 && (
-              <ul style={{ color: "red" }}>
-                {errors.map((error) => (
-                  <li key={error}>{error}</li>
-                ))}
-              </ul>
-            )}					  
+            {errors.length > 0 && (<ErrorHand errors={errors} setErrors={setErrors} />)}
 					  <h3>View Teams</h3>
 					  <TeamsTable teams={teams} editRow={editRow} deleteTeam={deleteTeam} />
           </div>

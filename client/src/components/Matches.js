@@ -7,6 +7,7 @@ import { useRecoilValue } from 'recoil';
 import { tournamentState } from "../atoms/tournament";
 import { locationState } from "../atoms/location";
 import '../newIndex.css'
+import ErrorHand from "./ErrorHand";
 
 function Matches() {
   const [matches, setMatches] = useState([]);
@@ -107,13 +108,7 @@ function Matches() {
 				</div>
 				<div className="double-column">
           <div className="container">
-            {errors.length > 0 && (
-              <ul style={{ color: "red" }}>
-                {errors.map((error) => (
-                  <li key={error}>{error}</li>
-                ))}
-              </ul>
-            )}					  
+            {errors.length > 0 && (<ErrorHand errors={errors} setErrors={setErrors} />)}
 					  <h3>View Matches</h3>
 					  <MatchesTable matches={matches} editRow={editRow} deleteMatch={deleteMatch} />
           </div>

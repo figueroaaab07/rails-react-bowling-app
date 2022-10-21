@@ -4,6 +4,7 @@ import EditBowlerForm from "./forms/EditBowlerForm";
 import BowlersTable from "./tables/BowlersTable";
 import { useRecoilValue } from 'recoil';
 import { teamState } from "../atoms/team";
+import ErrorHand from "./ErrorHand";
 
 function Bowlers() {
   const [bowlers, setBowlers] = useState([]);
@@ -97,13 +98,7 @@ function Bowlers() {
 				</div>
 				<div className="double-column">
           <div className="container">
-            {errors.length > 0 && (
-              <ul style={{ color: "red" }}>
-                {errors.map((error) => (
-                  <li key={error}>{error}</li>
-                ))}
-              </ul>
-            )}					  
+            {errors.length > 0 && (<ErrorHand errors={errors} setErrors={setErrors} />)}
  					  <h3>View Bowlers</h3>
 					  <BowlersTable bowlers={bowlers} editRow={editRow} deleteBowler={deleteBowler} />
           </div>

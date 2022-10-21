@@ -6,6 +6,7 @@ import { useRecoilValue } from 'recoil';
 import { locationState } from "../atoms/location";
 import { format, parseISO } from 'date-fns'
 import '../newIndex.css'
+import ErrorHand from "./ErrorHand";
 
 function Tournaments() {
   const [tournaments, setTournaments] = useState([]);
@@ -106,13 +107,7 @@ function Tournaments() {
 				</div>
 				<div className="double-column">
           <div className="container">
-            {errors.length > 0 && (
-              <ul style={{ color: "red" }}>
-                {errors.map((error) => (
-                  <li key={error}>{error}</li>
-                ))}
-              </ul>
-            )}					  
+            {errors.length > 0 && (<ErrorHand errors={errors} setErrors={setErrors} />)}
 					  <h3>View Tournaments</h3>
 					  <TournamentsTable tournaments={tournaments} editRow={editRow} deleteTournament={deleteTournament} />
 				  </div>

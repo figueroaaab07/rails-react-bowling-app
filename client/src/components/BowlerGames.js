@@ -5,6 +5,7 @@ import { teamState } from "../atoms/team";
 import { gameState } from "../atoms/game";
 import { bowlerGameState } from "../atoms/bowlerGame";
 import fillBowlers from "../modules/fillBowlers";
+import ErrorHand from "./ErrorHand";
 
 function BowlerGames() {
   const [bowlers, setBowlers] = useState(() => []);
@@ -73,13 +74,7 @@ function BowlerGames() {
 		<div className="some-page-wrapper">
 			<div className="row">
 				<div className="double-column">
-          {errors.length > 0 && (
-            <ul style={{ color: "red" }}>
-              {errors.map((error) => (
-                <li key={error}>{error}</li>
-              ))}
-            </ul>
-          )}
+          {errors.length > 0 && (<ErrorHand errors={errors} setErrors={setErrors} />)}
           <h3>Select Bowlers</h3>
           <div className="container">
             <table>
