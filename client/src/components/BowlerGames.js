@@ -72,6 +72,7 @@ function BowlerGames() {
 
   return (
 		<div className="some-page-wrapper">
+      <h3>Team: {team.name}</h3>
 			<div className="row">
 				<div className="double-column">
           {errors.length > 0 && (<ErrorHand errors={errors} setErrors={setErrors} />)}
