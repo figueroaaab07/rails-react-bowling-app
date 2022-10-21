@@ -8,9 +8,11 @@ function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState([]);
 
   function handleSubmit(e) {
     e.preventDefault();
+    setErrors([]);
     fetch("/login", {
       method: "POST",
       headers: {
@@ -20,9 +22,11 @@ function Login() {
     }).then((r) => {
       if (r.ok) {
         r.json().then((json) => setUserState(json));
+       } else {
+        r.json().then((json) => setErrors(json.errors));
       }
-    });
     navigate("/");
+    });
   }
 
   return (
@@ -47,6 +51,13 @@ function Login() {
         /><br></br>
         <button type="submit">Login</button>
       </form>
+      {errors.length > 0 && (
+        <ul style={{ color: "red" }}>
+          {errors.map((error) => (
+            <li key={error}>{error}</li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

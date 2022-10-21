@@ -5,9 +5,7 @@ function AddLocationForm({ addLocation }) {
   const [location, setLocation] = useState(initLocation);
 
   function handleChange(e) {
-    console.log(e.target);
     const {name, value} = e.target;
-    // setLocation({...location, [name]: (name === 'number_lanes' ? parseInt(value) : value )});
     setLocation({...location, [name]: value});
   }
 

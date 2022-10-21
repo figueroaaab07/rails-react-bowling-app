@@ -9,11 +9,16 @@ function Locations() {
   const initLocation = {id: null, name: '', street_address: '', city: '', state: '', country: '', zip_code: '', phone: '', number_lanes: ''};
   const [currentLocation, setCurrentLocation] = useState(initLocation);
   const [editing, setEditing] = useState(false);
+  const [errors, setErrors] = useState([]);
 
   async function getLocations() {
     const response = await fetch("/locations");
     const json = await response.json();
-    setLocations(locations => locations.concat(json));
+    if (response.ok) {
+      setLocations(locations => locations.concat(json));
+    } else {
+      setErrors(json.errors);
+    }
   };
   
   useEffect(() => {
@@ -28,14 +33,22 @@ function Locations() {
     };
     const response = await fetch("/locations", requestOptions);
     const json = await response.json();
-    setLocations(locations => locations.concat(json));
+    if (response.ok) {
+      setLocations(locations => locations.concat(json));
+    } else {
+      setErrors(json.errors);
+    }
   };
 
   async function deleteLocation(id) {
     const response = await fetch(`/locations/${id}`, { method: 'DELETE' });
-    // const json = await response.json();
-	  setEditing(false)
-    setLocations(locations => locations.filter((location) => location.id !== id));
+    const json = await response.json();
+    if (response.ok) {
+      setEditing(false)
+      setLocations(locations => locations.filter((location) => location.id !== id));
+    } else {
+      setErrors(json.errors);
+    }
   };
 
   async function updateLocation(id, updatedLocation) {
@@ -47,8 +60,12 @@ function Locations() {
     };
     const response = await fetch(`/locations/${id}`, requestOptions);
     const json = await response.json();
-	  setEditing(false)
-		setLocations(locations.map(location => (location.id === id ? updatedLocation : location)))
+    if (response.ok) {
+      setEditing(false)
+      setLocations(locations.map(location => (location.id === id ? updatedLocation : location)))
+    } else {
+      setErrors(json.errors);
+    }
 	}
 
 	function editRow(location) {
@@ -79,7 +96,14 @@ function Locations() {
 				</div>
 				<div className="double-column">
           <div className="container">
-					  <h3>View Locations</h3>
+            {errors.length > 0 && (
+              <ul style={{ color: "red" }}>
+                {errors.map((error) => (
+                  <li key={error}>{error}</li>
+                ))}
+              </ul>
+            )}
+            <h3>View Locations</h3>
 					  <LocationsTable locations={locations} editRow={editRow} deleteLocation={deleteLocation} />
           </div>
 				</div>

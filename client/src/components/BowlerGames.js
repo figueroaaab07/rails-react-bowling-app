@@ -13,12 +13,16 @@ function BowlerGames() {
   const game = useRecoilValue(gameState);
   const setBowlerGameState = useSetRecoilState(bowlerGameState);
   const navigate = useNavigate();
+  const [errors, setErrors] = useState([]);
 
   async function getBowlerGames() {
     const response = await fetch("/bowler_games");
     const json = await response.json();
-    setBowlerGames(json);
-    console.log(json);
+    if (response.ok) {
+      setBowlerGames(json);
+    } else {
+      setErrors(json.errors);
+    }
   };
   useEffect(() => {
     getBowlerGames();
@@ -34,7 +38,6 @@ function BowlerGames() {
       }
     });
     setBowlers(() => updatBowlers);
-    console.log(updatBowlers);
   }
 
   async function addBowlerGames(bowlerSelected) {
@@ -47,8 +50,11 @@ function BowlerGames() {
       };
       const response = await fetch("/bowler_games", requestOptions);
       const json = await response.json();
-      console.log(json);
-      console.log(json.selected);
+      if (response.ok) {
+        setBowlerGames(json);
+      } else {
+        setErrors(json.errors);
+      }
     }
     navigate("/frames");
   }
@@ -56,7 +62,6 @@ function BowlerGames() {
   function handleSubmit(e) {
     const bowlersSelected = bowlers.filter(bowler => bowler.selected === true)
     .map(({bowler_first_name, bowler_last_name, ...rest}) => rest);
-    console.log(bowlersSelected);
     bowlersSelected.forEach(bowlerSelected => addBowlerGames(bowlerSelected));
   }
 
@@ -68,10 +73,14 @@ function BowlerGames() {
 		<div className="some-page-wrapper">
 			<div className="row">
 				<div className="double-column">
+          {errors.length > 0 && (
+            <ul style={{ color: "red" }}>
+              {errors.map((error) => (
+                <li key={error}>{error}</li>
+              ))}
+            </ul>
+          )}
           <h3>Select Bowlers</h3>
-          {/* <button className="button-submit" type="submit" onClick={handleSubmit} >Bowlers Selected</button>
-        </div>
-				<div className="double-column"> */}
           <div className="container">
             <table>
               <thead>

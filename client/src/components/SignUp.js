@@ -10,6 +10,8 @@ function SignUp() {
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [role, setRole] = useState("player");
+  const [errors, setErrors] = useState([]);
+
   function handleSubmit(e) {
     e.preventDefault();
     fetch("/signup", {
@@ -26,9 +28,11 @@ function SignUp() {
     }).then((r) => {
       if (r.ok) {
         r.json().then((json) => setUserState(json));
+      } else {
+        r.json().then((json) => setErrors(json.errors));
       }
+      navigate("/");
     });
-    navigate("/");
   }
 
   return (
@@ -68,6 +72,13 @@ function SignUp() {
 
         <button type="submit">Sign Up</button>
       </form>
+      {errors.length > 0 && (
+        <ul style={{ color: "red" }}>
+          {errors.map((error) => (
+            <li key={error}>{error}</li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

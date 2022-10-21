@@ -5,7 +5,6 @@ function AddTeamForm({ addTeam }) {
   const [team, setTeam] = useState(initTeam);
 
   function handleChange(e) {
-    console.log(e.target);
     const {name, value} = e.target;
     setTeam({...team, [name]: value});
   }

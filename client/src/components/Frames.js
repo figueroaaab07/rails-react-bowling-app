@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { useSetRecoilState, useRecoilValue } from 'recoil';
-// import { teamState } from "../atoms/team";
 import { gameState } from "../atoms/game";
 import { homeBowlerGamesState } from "../atoms/homeBowlerGames";
 import { guestBowlerGamesState } from "../atoms/guestBowlerGames";
@@ -11,10 +9,8 @@ import parseGame from "../modules/parseGame";
 import FramesTable from './tables/FramesTable';
 
 function Frames() {
-  // const [scoreboard, setScoreboard] = useState(() => ['8/','X','9-','X','X']);
   const [bowlerGames, setBowlerGames] = useState(() => []);
   const [allFrames, setAllFrames] = useState(() => []);
-  // const [frame, setFrame] = useState(() => []);
   const [teams, setTeams] = useState(() => []);
   const gamesFlat = useRecoilValue(gameState);
   const setHomeBowlerGames = useSetRecoilState(homeBowlerGamesState);
@@ -22,26 +18,8 @@ function Frames() {
   const homeAtom = useRecoilValue(homeBowlerGamesState);
   const guestAtom = useRecoilValue(guestBowlerGamesState);
 
-  const navigate = useNavigate();
   let homeBowlerGames = [];
   let guestBowlerGames = [];
-  console.log(gamesFlat);
-
-  const pins1 = '3';
-  const pins2 = '/';
-  const pins3 = null;
-  const frame1 = `${pins1}${pins2}${pins3 ? pins3 : ''}`;
-  console.log(frame1);
-
-  // async function getFrames() {
-  //   const response = await fetch("/frames");
-  //   const json = await response.json();
-  //   setFrames(json);
-  //   console.log(json);
-  // };
-  // useEffect(() => {
-  //   getFrames();
-  // }, []);
 
   async function getBowlerGamesAndTeams(){
     const bowlerGames = await fetch("/bowler_games").then(res => res.json()).then(data => data.filter((bowlerGame) => (bowlerGame.game.id === gamesFlat.game_id && bowlerGame.selected === true)));
@@ -50,17 +28,15 @@ function Frames() {
     setTeams(teams);
     const frames = await fetch("/frames").then(res => res.json());
     setAllFrames(frames);
-    console.log(bowlerGames, teams, frames);
     const homeBowlersId = teams.filter(team => team.id === gamesFlat.home_team_id)[0].bowlers.map(bowler => bowler.id);
     const guestBowlersId = teams.filter(team => team.id === gamesFlat.guest_team_id)[0].bowlers.map(bowler => bowler.id);
     homeBowlerGames = bowlerGames.filter(bowlerGame => homeBowlersId.includes(bowlerGame.bowler.id));
     setHomeBowlerGames(homeBowlerGames);
     guestBowlerGames = bowlerGames.filter(bowlerGame => guestBowlersId.includes(bowlerGame.bowler.id));
     setGuestBowlerGames(guestBowlerGames);
-    console.log(homeBowlerGames, guestBowlerGames);
-    guestBowlerGames.map(({bowler, frames})  => {
-      console.log(bowler.id, frames,`${bowler.first_name} ${bowler.last_name}`)
-    });
+    // guestBowlerGames.map(({bowler, frames})  => {
+    //   console.log(bowler.id, frames,`${bowler.first_name} ${bowler.last_name}`)
+    // });
   }
   useLayoutEffect(() => {
     getBowlerGamesAndTeams();

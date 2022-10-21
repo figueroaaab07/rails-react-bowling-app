@@ -1,10 +1,9 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
-import { useSetRecoilState, useRecoilValue } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { locationState } from "../../atoms/location";
 
 function LocationsTable({ locations, editRow, deleteLocation }) {
-  console.log(locations);
   const setLocationState = useSetRecoilState(locationState);
   const navigate = useNavigate();
 

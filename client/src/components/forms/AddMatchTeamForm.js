@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from 'recoil';
 import { locationState } from "../../atoms/location";
 import { matchState } from "../../atoms/match";
@@ -11,9 +10,7 @@ function AddMatchTeamForm({ addMatchTeam, teams, lanes }) {
   const [matchTeam, setMatchTeam] = useState(initMatchTeam);
 
   function handleChange(e) {
-    console.log(e.target);
     const {name, value} = e.target;
-    console.log(name, value);
     setMatchTeam({...matchTeam, [name]: value});
   }
 

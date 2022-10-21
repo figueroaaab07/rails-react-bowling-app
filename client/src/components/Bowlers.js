@@ -11,17 +11,17 @@ function Bowlers() {
   const initBowler = {id: null, last_name: '', first_name: '', street_address: '', city: '', state: '', country: '', zip_code: '', phone: '', left_handed: 0, total_pins: null, total_games: null, handicap: null, user_id: null, team_id: team.id};
   const [currentBowler, setCurrentBowler] = useState(initBowler);
   const [editing, setEditing] = useState(false);
-  // const [isLeftHand, setIsLeftHand] = useState(false);
-
+  const [errors, setErrors] = useState([]);
 
   async function getBowlers() {
     const response = await fetch("/bowlers");
     const json = await response.json();
-    console.log(json, team.id);
-    console.log(json.filter(d => d.team.id === team.id));
-    setBowlers(json.filter((bowler) => bowler.team.id === team.id));
+    if (response.ok) {
+      setBowlers(json.filter((bowler) => bowler.team.id === team.id));
+    } else {
+      setErrors(json.errors);
+    }
   };
-  
   useEffect(() => {
     getBowlers();
   }, []);
@@ -34,18 +34,25 @@ function Bowlers() {
     };
     const response = await fetch("/bowlers", requestOptions);
     const json = await response.json();
-    setBowlers(bowlers => bowlers.concat(json));
+    if (response.ok) {
+      setBowlers(bowlers => bowlers.concat(json));
+    } else {
+      setErrors(json.errors);
+    }
   };
 
   async function deleteBowler(id) {
     const response = await fetch(`/bowlers/${id}`, { method: 'DELETE' });
-    // const json = await response.json();
-	  setEditing(false)
-    setBowlers(bowlers => bowlers.filter((bowler) => bowler.id !== id));
+    const json = await response.json();
+    if (response.ok) {
+      setEditing(false)
+      setBowlers(bowlers => bowlers.filter((bowler) => bowler.id !== id));
+    } else {
+      setErrors(json.errors);
+    }
   };
 
   async function updateBowler(id, updatedBowler) {
-    console.log(id, updatedBowler);
     const requestOptions = {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -53,8 +60,12 @@ function Bowlers() {
     };
     const response = await fetch(`/bowlers/${id}`, requestOptions);
     const json = await response.json();
-	  setEditing(false)
-		setBowlers(bowlers.map(bowler => (bowler.id === id ? updatedBowler : bowler)))
+    if (response.ok) {
+      setEditing(false)
+      setBowlers(bowlers.map(bowler => (bowler.id === id ? updatedBowler : bowler)))
+    } else {
+      setErrors(json.errors);
+    }
 	}
 
 	function editRow(bowler) {
@@ -86,7 +97,14 @@ function Bowlers() {
 				</div>
 				<div className="double-column">
           <div className="container">
-					  <h3>View Bowlers</h3>
+            {errors.length > 0 && (
+              <ul style={{ color: "red" }}>
+                {errors.map((error) => (
+                  <li key={error}>{error}</li>
+                ))}
+              </ul>
+            )}					  
+ 					  <h3>View Bowlers</h3>
 					  <BowlersTable bowlers={bowlers} editRow={editRow} deleteBowler={deleteBowler} />
           </div>
 				</div>

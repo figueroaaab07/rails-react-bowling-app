@@ -8,13 +8,17 @@ function Teams() {
   const initTeam = {id: null, name: '', logo: ''};
   const [currentTeam, setCurrentTeam] = useState(initTeam);
   const [editing, setEditing] = useState(false);
+  const [errors, setErrors] = useState([]);
 
   async function getTeams() {
     const response = await fetch("/teams");
     const json = await response.json();
-    setTeams(teams => teams.concat(json));
+    if (response.ok) {
+      setTeams(teams => teams.concat(json));
+    } else {
+      setErrors(json.errors);
+    }
   };
-  
   useEffect(() => {
     getTeams();
   }, []);
@@ -27,17 +31,25 @@ function Teams() {
     };
     const response = await fetch("/teams", requestOptions);
     const json = await response.json();
-    setTeams(teams => teams.concat(json));
+    if (response.ok) {
+      setTeams(teams => teams.concat(json));
+    } else {
+      setErrors(json.errors);
+    }
   };
 
   async function deleteTeam(id) {
     const response = await fetch(`/teams/${id}`, { method: 'DELETE' });
-	  setEditing(false)
-    setTeams(teams => teams.filter((team) => team.id !== id));
+    const json = await response.json();
+    if (response.ok) {
+      setEditing(false)
+      setTeams(teams => teams.filter((team) => team.id !== id));
+    } else {
+      setErrors(json.errors);
+    }
   };
 
   async function updateTeam(id, updatedTeam) {
-    console.log(id, updatedTeam);
     const requestOptions = {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -45,8 +57,12 @@ function Teams() {
     };
     const response = await fetch(`/teams/${id}`, requestOptions);
     const json = await response.json();
-	  setEditing(false)
-		setTeams(teams.map(team => (team.id === id ? updatedTeam : team)))
+    if (response.ok) {
+      setEditing(false)
+      setTeams(teams.map(team => (team.id === id ? updatedTeam : team)))
+    } else {
+      setErrors(json.errors);
+    }
 	}
 
 	function editRow(team) {
@@ -77,6 +93,13 @@ function Teams() {
 				</div>
 				<div className="double-column">
           <div className="container">
+            {errors.length > 0 && (
+              <ul style={{ color: "red" }}>
+                {errors.map((error) => (
+                  <li key={error}>{error}</li>
+                ))}
+              </ul>
+            )}					  
 					  <h3>View Teams</h3>
 					  <TeamsTable teams={teams} editRow={editRow} deleteTeam={deleteTeam} />
           </div>

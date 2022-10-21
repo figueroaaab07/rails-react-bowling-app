@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
-import { useSetRecoilState, useRecoilValue } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { teamState } from "../../atoms/team";
 
 function TeamsTable({ teams, editRow, deleteTeam }) {
@@ -26,7 +26,6 @@ function TeamsTable({ teams, editRow, deleteTeam }) {
         {teams.length > 0 ? (
           teams.map(team => {
             const {id, name, logo, bowlers} = team;
-            // const isDeletable = bowlers.length === 0;
             const isDelUpdable = !(bowlers?.length > 0);
             return (
               <tr key={id}>

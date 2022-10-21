@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format, parseISO } from 'date-fns'
@@ -12,7 +11,6 @@ function AddMatchForm({ addMatch }) {
   const [match, setMatch] = useState(initMatch);
 
   function handleChange(e) {
-    console.log(e.target);
     const {name, value} = e.target;
     setMatch({...match, [name]: value});
   }

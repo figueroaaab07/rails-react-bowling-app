@@ -15,27 +15,27 @@ function Matches() {
   const initMatch = {id: null, date: format(new Date(), 'yyyy-MM-dd'), number_players: '', number_games: '', tournament_id: tournament.id};
   const [currentMatch, setCurrentMatch] = useState(initMatch);
   const [editing, setEditing] = useState(false);
+  const [errors, setErrors] = useState([]);
 
   async function getMatches() {
     const response = await fetch("/matches");
     const json = await response.json();
-    console.log(json, tournament.id);
-    console.log(json.filter(d => d.tournament.id === tournament.id));
-    setMatches(json.filter((match) => match.tournament.id === tournament.id));
+    if (response.ok) {
+      setMatches(json.filter((match) => match.tournament.id === tournament.id));
+    } else {
+      setErrors(json.errors);
+    }
   };
-  
   useEffect(() => {
     getMatches();
   }, []);
 
   function formattedDate(match) {
-    console.log(match.date);
     return {...match, ["date"]: (format(match.date, 'yyyy-MM-dd'))};
   }
 
   async function addMatch(match) {
     const addFormatMatch = formattedDate(match);
-    console.log(addFormatMatch);
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -43,19 +43,26 @@ function Matches() {
     };
     const response = await fetch("/matches", requestOptions);
     const json = await response.json();
-    setMatches(matches => matches.concat(json));
+    if (response.ok) {
+      setMatches(matches => matches.concat(json));
+    } else {
+      setErrors(json.errors);
+    }
   };
 
   async function deleteMatch(id) {
     const response = await fetch(`/matches/${id}`, { method: 'DELETE' });
-    // const json = await response.json();
-	  setEditing(false)
-    setMatches(matches => matches.filter((match) => match.id !== id));
+    const json = await response.json();
+    if (response.ok) {
+      setEditing(false)
+      setMatches(matches => matches.filter((match) => match.id !== id));
+    } else {
+      setErrors(json.errors);
+    }
   };
 
   async function updateMatch(id, updatedMatch) {
     const updFormatMatch = formattedDate(updatedMatch);
-    console.log(id, updFormatMatch);
     const requestOptions = {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -63,8 +70,12 @@ function Matches() {
     };
     const response = await fetch(`/matches/${id}`, requestOptions);
     const json = await response.json();
-	  setEditing(false)
-		setMatches(matches.map(match => (match.id === id ? updFormatMatch : match)))
+    if (response.ok) {
+      setEditing(false)
+      setMatches(matches.map(match => (match.id === id ? updFormatMatch : match)))
+    } else {
+      setErrors(json.errors);
+    }
 	}
 
 	function editRow(match) {
@@ -96,6 +107,13 @@ function Matches() {
 				</div>
 				<div className="double-column">
           <div className="container">
+            {errors.length > 0 && (
+              <ul style={{ color: "red" }}>
+                {errors.map((error) => (
+                  <li key={error}>{error}</li>
+                ))}
+              </ul>
+            )}					  
 					  <h3>View Matches</h3>
 					  <MatchesTable matches={matches} editRow={editRow} deleteMatch={deleteMatch} />
           </div>

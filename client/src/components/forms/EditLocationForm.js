@@ -1,14 +1,11 @@
-import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
 
 function EditLocationForm({ editing, setEditing, currentLocation, updateLocation }) {
-  const navigate = useNavigate();
   const [location, setLocation] = useState(currentLocation);
-
+  
   function handleChange(e) {
     console.log(e.target);
     const {name, value} = e.target;
-    // setLocation({...location, [name]: (name === 'number_lanes' ? parseInt(value) : value )});
     setLocation({...location, [name]: value});
   }
 

@@ -1,5 +1,4 @@
 function fillBowlers(teamSelected, setBowlers, game) {
-  console.log(teamSelected);
   const updatedBowlers = []
   fetch("/bowler_games")
   .then((response) => response.json())
@@ -10,7 +9,6 @@ function fillBowlers(teamSelected, setBowlers, game) {
       const disabled = (checkBowler.length) ? (checkBowler[0].frames.length ? true : false) : false;
       updatedBowlers.push({id: null, selected: selected, disabled: disabled, bowler_id: bowler.id, bowler_first_name: bowler.first_name, bowler_last_name: bowler.last_name, game_score: null, game_id: game.game_id})
     })
-    console.log(updatedBowlers);
     setBowlers(() => updatedBowlers);
     return updatedBowlers;
   })

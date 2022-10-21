@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
 
 function EditTeamForm({ editing, setEditing, currentTeam, updateTeam}) {
   const [team, setTeam] = useState(currentTeam);
-  const navigate = useNavigate();
 
   function handleChange(e) {
-    console.log(e.target);
     const {name, value} = e.target;
     setTeam({...team, [name]: value});
   }

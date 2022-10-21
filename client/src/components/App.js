@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
-import { atom, selector, useRecoilState, useRecoilValue } from 'recoil';
+import { Routes, Route } from "react-router-dom";
+import { useRecoilState } from 'recoil';
 import { userState } from "../atoms/user";
 import SignUp from "./SignUp";
 import Login from "./Login";
@@ -29,28 +29,6 @@ function App() {
       }
     });
   }, []);
-  
-  // const [apods, setApods] = useState([]);
-  // const navigate = useNavigate();
-  // const [userSelect, setUserSelect] = useState()
-  // const [apod, setApod] = useState()
-
-  // async function selectUser(user) {
-  //   console.log(user);
-  //   const {id} = user;
-  //   const response = await fetch(`https://sinatra-react-project-v2.herokuapp.com/users/${id}/apods`);
-  //   const json = await response.json();
-  //   console.log(json);
-  //   setApods(json);
-  //   setUserSelect(user);
-  //   // setApods(user.apods);
-  //   navigate("/apods");
-  // };
-
-  // function imageClick(apod) {
-  //   setApod(apod);
-  //   navigate("/apod");
-  // }
 
   return (
   <>
@@ -86,19 +64,6 @@ function App() {
       )}
     </Routes>
   </>
-
-    // <>
-    //   <h1 className="header">NASA Astronomy Pictures of Your Birth Day</h1>
-    //   <NavBar />
-    //   <Routes>
-    //     <Route path="/" element={<Home />} />
-    //     <Route path="/about" element={<About />} />
-    //     <Route path="/signup" element={<SignUp selectUser={selectUser} />} />
-    //     <Route path="/login" element={<Login apods={apods} user={userSelect} imageClick={imageClick} />} />
-    //     <Route path="/apod" element={<Apod apod={apod} user={userSelect} />} />
-    //     <Route path="*" element={<NoMatch />} />
-    //   </Routes>
-    // </>
   )
 }
 

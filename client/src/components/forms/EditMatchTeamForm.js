@@ -1,14 +1,9 @@
 import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
 
 function EditMatchTeamForm({ editing, setEditing, currentMatchTeam, updateMatchTeam, teams, lanes }) {
   const [matchTeam, setMatchTeam] = useState(currentMatchTeam);
-  const navigate = useNavigate();
-
-  console.log(currentMatchTeam);
 
   function handleChange(e) {
-    console.log(e.target);
     const {name, value} = e.target;
     setMatchTeam({...matchTeam, [name]: value});
   }

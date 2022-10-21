@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
 
 function EditBowlerForm({ editing, setEditing, currentBowler, updateBowler }) {
   const [bowler, setBowler] = useState(currentBowler);
-  const navigate = useNavigate();
 
   function handleChange(e) {
-    console.log(e.target);
     const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
     setBowler({...bowler, [e.target.name]: value});
   }

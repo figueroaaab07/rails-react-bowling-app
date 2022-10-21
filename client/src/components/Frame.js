@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './Frames.css'
 
 function Frame({ frame_number, ball_one_pins, ball_two_pins, ball_three_pins, frame_score, addUpdtFrame, scoreBowling, resultBowling }) {
@@ -11,7 +11,7 @@ function Frame({ frame_number, ball_one_pins, ball_two_pins, ball_three_pins, fr
   const div_ball_two_pins = useRef(initFrame.ball_two_pins);
   const div_ball_three_pins = useRef(initFrame.ball_three_pins);
   const div_frame_score = useRef(initFrame.frame_score);
-  // console.log(initFrame);
+
   useEffect(() => {
    setFrame(initFrame);
   }, [resultBowling]);  
@@ -47,11 +47,9 @@ function Frame({ frame_number, ball_one_pins, ball_two_pins, ball_three_pins, fr
     if (event.target.innerText.trim() === "" || event.target.innerText.length > 1 || !eval(validate).test(event.target.innerText) || (name === "ball_two_pins" && event.target.innerText === 'X' && frame.frame_number !== 10) || (name === "ball_two_pins" && event.target.innerText !== '/' && (parseInt(event.target.innerText, 10) + parseInt(frame.ball_one_pins, 10)) > 9) || frame.frame_number > scoreBowling.length + 1 || (name === "ball_two_pins" && event.target.innerText === 'X' && frame.frame_number !== 10) || (name === "ball_two_pins" && frame.ball_one_pins === 'X' && frame.frame_number !== 10 && (event.target.innerText !== ''))) {
       setFrame(frame => ({...frame, [name]: initFrame[name]}));
       eval(adjust).current.innerText = (initFrame[name] ? initFrame[name] : '');
-      console.log(initFrame[name]);
     } else {
       addUpdtFrame({...frame, [name]: event.target.innerText});
       setFrame({...frame, [name]: event.target.innerText});
-      console.log({...frame, [name]: event.target.innerText});
     }
   }
 

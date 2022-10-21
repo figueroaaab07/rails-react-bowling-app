@@ -6,7 +6,6 @@ import { useRecoilValue } from 'recoil';
 import { tournamentState } from "../atoms/tournament";
 import { locationState } from "../atoms/location";
 import { matchState } from "../atoms/match";
-import Matches from './Matches';
 import '../newIndex.css'
 
 function MatchTeams() {
@@ -15,18 +14,21 @@ function MatchTeams() {
   const tournament = useRecoilValue(tournamentState);
   const location = useRecoilValue(locationState);
   const match = useRecoilValue(matchState);
-  console.log(match);
   const initMatchTeam = {id: null, lanes: '', home_team_id: '', guest_team_id: '', match_id: match.id};
   const [currentMatchTeam, setCurrentMatchTeam] = useState(initMatchTeam);
   const [editing, setEditing] = useState(false);
+  const [errors, setErrors] = useState([]);
   const lanes = []
 
   async function getTeams() {
     const response = await fetch("/teams");
     const json = await response.json();
-    setTeams(() => json);
+    if (response.ok) {
+      setTeams(() => json);
+    } else {
+      setErrors(json.errors);
+    }
   };
-  
   useEffect(() => {
     getTeams();
   }, []);
@@ -34,10 +36,12 @@ function MatchTeams() {
   async function getMatchTeams() {
     const response = await fetch("/match_teams");
     const json = await response.json();
-    setMatchTeams(json.filter((match_team) => match_team.match.id === match.id));
-    console.log(json.filter((match_team) => match_team.match.id === match.id));
+    if (response.ok) {
+      setMatchTeams(json.filter((match_team) => match_team.match.id === match.id));
+    } else {
+      setErrors(json.errors);
+    }
   };
-  
   useEffect(() => {
     getMatchTeams();
   }, []);
@@ -53,15 +57,16 @@ function MatchTeams() {
       };
       const response = await fetch("/games", requestOptions);
       const json = await response.json();
-      console.log(json);
+      if (response.ok) {
+        console.log(`Game Created: ${json}`);
+      } else {
+        setErrors(json.errors);
+      }
     }
   }
 
   async function addMatchTeam(match_team) {
-    console.log(matchTeams, match_team);
     const checkMatchTeam = matchTeams.filter(matchTeam => ((matchTeam.home_team.id === Number(match_team.home_team_id)) || (matchTeam.home_team.id === Number(match_team.guest_team_id)) || (matchTeam.guest_team.id === Number(match_team.home_team_id)) || (matchTeam.guest_team.id === Number(match_team.guest_team_id)) || (matchTeam.lanes === match_team.lanes)))
-    // const checkMatchTeam = matchTeams.filter(matchTeam => (console.log(matchTeam.home_team.id, matchTeam.guest_team.id, match_team.home_team_id, match_team.guest_team_id)));
-    console.log(checkMatchTeam);
     if (checkMatchTeam.length === 0) {
       const requestOptions = {
       method: 'POST',
@@ -70,20 +75,27 @@ function MatchTeams() {
       };
       const response = await fetch("/match_teams", requestOptions);
       const json = await response.json();
-      setMatchTeams(match_team => match_team.concat(json));
-      addGames(json.id);
+      if (response.ok) {
+        setMatchTeams(match_team => match_team.concat(json));
+        addGames(json.id);
+      } else {
+        setErrors(json.errors);
+      }
     };
   }  
 
   async function deleteMatchTeam(id) {
     const response = await fetch(`/match_teams/${id}`, { method: 'DELETE' });
-    // const json = await response.json();
-	  setEditing(false)
-    setMatchTeams(matchTeams => matchTeams.filter((matchTeam) => matchTeam.id !== id));
+    const json = await response.json();
+    if (response.ok) {
+      setEditing(false)
+      setMatchTeams(matchTeams => matchTeams.filter((matchTeam) => matchTeam.id !== id));
+    } else {
+      setErrors(json.errors);
+    }
   };
 
   async function updateMatchTeam(id, updatedMatchTeam) {
-    console.log(id, updatedMatchTeam);
     const requestOptions = {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -91,8 +103,12 @@ function MatchTeams() {
     };
     const response = await fetch(`/match_teams/${id}`, requestOptions);
     const json = await response.json();
-	  setEditing(false)
-		setMatchTeams(matchTeams.map(matchTeam => (matchTeam.id === id ? json : matchTeam)))
+    if (response.ok) {
+      setEditing(false)
+      setMatchTeams(matchTeams.map(matchTeam => (matchTeam.id === id ? json : matchTeam)))
+    } else {
+      setErrors(json.errors);
+    }
 	}
 
 	function editRow(matchTeam) {
@@ -133,6 +149,13 @@ function MatchTeams() {
 				</div>
 				<div className="double-column">
           <div className="container">
+            {errors.length > 0 && (
+              <ul style={{ color: "red" }}>
+                {errors.map((error) => (
+                  <li key={error}>{error}</li>
+                ))}
+              </ul>
+            )}					  
 					  <h3>View Match Teams</h3>
 					  <MatchTeamsTable matchTeams={matchTeams} editRow={editRow} deleteMatchTeam={deleteMatchTeam} teams={teams} />
           </div>

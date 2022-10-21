@@ -1,16 +1,14 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
-import { useSetRecoilState, useRecoilValue } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { gameState } from "../../atoms/game";
 
 function GamesTable({ gamesFlat }) {
   const setGameState = useSetRecoilState(gameState);
   const navigate = useNavigate();
-  console.log(gamesFlat);
 
   function selectGame(game) {
     setGameState(game);
-    console.log(game);
     navigate("/bowler_games");
   }
 
